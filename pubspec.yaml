@@ -1,4 +1,4 @@
-name: tikitaka_scoreboard_desktop
+name: tiki_taka_scoreboard_desktop
 description: Desktop application for Tiki-Taka system for real-time scoreboard.
 version: 1.0.0+1
 publish_to: none
@@ -8,20 +8,63 @@ environment:
 
 dependencies:
   bloc: ^9.0.0
+  cloud_firestore: ^5.6.9
+  dash_flags: ^0.1.1
+  device_info_plus: ^11.5.0
+  equatable: ^2.0.7
+  firebase_core: ^3.14.0
+  firebase_core_platform_interface: ^5.4.0
+  firebase_messaging: ^15.2.7
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_local_notifications: ^19.2.1
   flutter_localizations:
     sdk: flutter
+  google_fonts: ^6.2.1
+  http: ^1.4.0
+  hugeicons: ^0.0.11
   intl: ^0.20.2
+  package_info_plus: ^8.3.0
+  plugin_platform_interface: ^2.1.8
+  shared_preferences: ^2.5.3
+  shimmer_animation: ^2.2.2
+  text_scroll: ^0.2.0
+  user_api:
+    path: packages/user_api
+  user_api_remote:
+    path: packages/user_api_remote
+  user_repository:
+    path: packages/user_repository
+  vector_graphics: ^1.1.19
+  vector_graphics_compiler: ^1.1.17
 
 dev_dependencies:
   bloc_test: ^10.0.0
+  build_runner: ^2.5.2
+  flutter_launcher_icons: ^0.14.4
   flutter_test:
     sdk: flutter
+  mockito: ^5.4.6
   mocktail: ^1.0.4
+  test_coverage_badge: ^0.3.2
   very_good_analysis: ^9.0.0
+
+flutter_launcher_icons:
+  image_path: "assets/logo.png"
+  android: false
+  ios: false
+  web:
+    generate: false
+  windows:
+   generate: true
+   icon_size: 256
+  macos:
+    generate: true
 
 flutter:
   generate: true
   uses-material-design: true
+
+  assets:
+    - assets/logo.png
