@@ -23,15 +23,15 @@ class MockFirebasePlatform extends FirebasePlatform
 
 class MockFirebaseAppPlatform extends FirebaseAppPlatform with Mock {
   MockFirebaseAppPlatform()
-      : super(
-          'mock_app',
-          const FirebaseOptions(
-            projectId: 'mock_project_id',
-            apiKey: 'mock_api_key',
-            appId: 'mock_app_id',
-            messagingSenderId: 'mock_messaging_sender_id',
-          ),
-        );
+    : super(
+        'mock_app',
+        const FirebaseOptions(
+          projectId: 'mock_project_id',
+          apiKey: 'mock_api_key',
+          appId: 'mock_app_id',
+          messagingSenderId: 'mock_messaging_sender_id',
+        ),
+      );
 
   @override
   String get name => 'mock_app';
@@ -43,14 +43,14 @@ Future<void> setupFirebaseCoreMocks() async {
   const channel = MethodChannel('plugins.flutter.io/firebase_core');
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(
-    channel,
-    (MethodCall methodCall) async {
-      if (methodCall.method == 'FirebaseCore#initializeCore') {
-        return null;
-      }
-      throw MissingPluginException();
-    },
-  );
+        channel,
+        (MethodCall methodCall) async {
+          if (methodCall.method == 'FirebaseCore#initializeCore') {
+            return null;
+          }
+          throw MissingPluginException();
+        },
+      );
 
   Firebase.delegatePackingProperty = MockFirebasePlatform();
 }

@@ -23,8 +23,8 @@ class AppSchimmer extends StatelessWidget {
           width: width,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.onSurface.withValues(
-                  alpha: 0.1,
-                ),
+              alpha: 0.1,
+            ),
             borderRadius: borderRadius ?? BorderRadius.circular(10),
           ),
         ),

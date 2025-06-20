@@ -29,6 +29,6 @@ class LanguagesState extends Equatable {
 
   @override
   List<Object> get props => [
-        status,
-      ];
+    status,
+  ];
 }

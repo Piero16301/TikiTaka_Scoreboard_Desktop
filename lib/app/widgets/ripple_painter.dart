@@ -41,18 +41,19 @@ class RipplePainter extends CustomPainter {
       final waveColor = colors[i % colors.length];
 
       final wavePaint = Paint()
-        ..shader = RadialGradient(
-          colors: [
-            waveColor.withValues(alpha: opacity),
-            waveColor.withValues(alpha: 0),
-          ],
-          stops: const [0.8, 1.0],
-        ).createShader(
-          Rect.fromCircle(
-            center: center,
-            radius: outerRadius,
-          ),
-        )
+        ..shader =
+            RadialGradient(
+              colors: [
+                waveColor.withValues(alpha: opacity),
+                waveColor.withValues(alpha: 0),
+              ],
+              stops: const [0.8, 1.0],
+            ).createShader(
+              Rect.fromCircle(
+                center: center,
+                radius: outerRadius,
+              ),
+            )
         ..style = PaintingStyle.fill;
 
       final circlePath = Path()
@@ -64,18 +65,19 @@ class RipplePainter extends CustomPainter {
 
       final glowPaint = Paint()
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8)
-        ..shader = RadialGradient(
-          colors: [
-            waveColor.withValues(alpha: opacity * 0.5),
-            waveColor.withValues(alpha: 0),
-          ],
-          stops: const [0.85, 1.0],
-        ).createShader(
-          Rect.fromCircle(
-            center: center,
-            radius: outerRadius + 5.0,
-          ),
-        );
+        ..shader =
+            RadialGradient(
+              colors: [
+                waveColor.withValues(alpha: opacity * 0.5),
+                waveColor.withValues(alpha: 0),
+              ],
+              stops: const [0.85, 1.0],
+            ).createShader(
+              Rect.fromCircle(
+                center: center,
+                radius: outerRadius + 5.0,
+              ),
+            );
 
       canvas.drawCircle(center, outerRadius, glowPaint);
     }

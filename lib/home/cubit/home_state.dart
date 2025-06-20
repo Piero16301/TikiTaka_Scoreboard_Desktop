@@ -25,8 +25,8 @@ class HomeState extends Equatable {
 
   @override
   List<Object?> get props => [
-        matchesCollection,
-        configsCollection,
-        reload,
-      ];
+    matchesCollection,
+    configsCollection,
+    reload,
+  ];
 }

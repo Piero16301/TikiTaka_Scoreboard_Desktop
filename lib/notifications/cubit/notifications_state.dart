@@ -17,6 +17,6 @@ class NotificationsState extends Equatable {
 
   @override
   List<Object?> get props => [
-        leaguesCollection,
-      ];
+    leaguesCollection,
+  ];
 }

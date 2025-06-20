@@ -21,7 +21,7 @@ class AppState extends Equatable {
 
   @override
   List<Object?> get props => [
-        darkMode,
-        language,
-      ];
+    darkMode,
+    language,
+  ];
 }
