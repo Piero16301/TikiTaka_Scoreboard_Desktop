@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -38,19 +40,38 @@ class NotificationService {
     // Get FCM token
     String? token;
     try {
+      // Get APNs token
+      if (Platform.isMacOS || Platform.isWindows) {
+        final apnsToken = await _messaging.getAPNSToken();
+        if (apnsToken != null) {
+          debugPrint('APNs Token: $apnsToken');
+        } else {
+          await Future<void>.delayed(const Duration(seconds: 3));
+          final apnsToken = await _messaging.getAPNSToken();
+          if (apnsToken != null) {
+            debugPrint('APNs Token: $apnsToken');
+          } else {
+            debugPrint('No APNs token found after delay');
+          }
+        }
+      }
       token = await _messaging.getToken();
       debugPrint('FCM Token: $token');
     } on FirebaseException catch (e) {
       debugPrint('Error getting FCM token: $e');
     }
+
     if (token != null) {
       _token = token;
     } else {
       return;
     }
 
-    // Get device information
-    final androidInfo = LocalSettingsService.instance.androidInfo;
+    // Get MacOS device information
+    final macOsInfo = LocalSettingsService.instance.macOsInfo;
+
+    // Get Windows device information
+    final windowsInfo = LocalSettingsService.instance.windowsInfo;
 
     // Get device locale
     final localLanguage = await LocalSettingsService.instance
@@ -67,7 +88,9 @@ class NotificationService {
           {
             'token': token,
             'lastOpenAt': FieldValue.serverTimestamp(),
-            'androidInfo': androidInfo.toJson(),
+            'androidInfo': null,
+            'macOsInfo': macOsInfo?.toJson(),
+            'windowsInfo': windowsInfo?.toJson(),
             'language': localLanguage,
             'darkMode': darkMode,
             'enabledTeams': FieldValue.arrayUnion(<String>[]),
@@ -78,11 +101,12 @@ class NotificationService {
     // Subscribe to AllDevices topic
     await subscribeToTopic(allDevicesTopic);
 
-    // Subscribe to WearOS topic if not emulator
-    if (androidInfo.isPhysicalDevice) {
-      await subscribeToTopic(wearOSTopic);
-    } else {
-      debugPrint('Emulator detected, not subscribing to WearOS topic');
+    if (Platform.isMacOS) {
+      // Subscribe to MacOS topic
+      await subscribeToTopic(macOSTopic);
+    } else if (Platform.isWindows) {
+      // Subscribe to Windows topic
+      await subscribeToTopic(windowsTopic);
     }
   }
 
@@ -106,25 +130,16 @@ class NotificationService {
   Future<void> setupFlutterNotifications() async {
     if (_isFlutterLocalNotificationsInitialized) return;
 
-    const channel = AndroidNotificationChannel(
-      'high_importance_channel',
-      'High Importance Notifications',
-      description: 'This channel is used for important notifications.',
-      importance: Importance.high,
-    );
-
-    await _localNotifications
-        .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
-        ?.createNotificationChannel(channel);
-
-    const initializationSettingsAndroid = AndroidInitializationSettings(
-      '@mipmap/ic_logo',
+    const initializationSettingsMacOS = DarwinInitializationSettings();
+    const initializationSettingsWindows = WindowsInitializationSettings(
+      appName: appName,
+      appUserModelId: appUserModelId,
+      guid: appGUID,
     );
 
     const initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
+      macOS: initializationSettingsMacOS,
+      windows: initializationSettingsWindows,
     );
 
     await _localNotifications.initialize(
@@ -203,46 +218,55 @@ class NotificationService {
   }
 }
 
-extension AndroidVersion on AndroidBuildVersion {
+extension MacOsInfo on MacOsDeviceInfo {
   Map<String, dynamic> toJson() {
     return {
-      'codename': codename,
-      'incremental': incremental,
-      'previewSdkInt': previewSdkInt ?? 0,
-      'release': release,
-      'sdkInt': sdkInt,
-      'securityPatch': securityPatch ?? '',
+      'computerName': computerName,
+      'hostName': hostName,
+      'arch': arch,
+      'model': model,
+      'modelName': modelName,
+      'kernelVersion': kernelVersion,
+      'osRelease': osRelease,
+      'majorVersion': majorVersion,
+      'minorVersion': minorVersion,
+      'patchVersion': patchVersion,
+      'activeCPUs': activeCPUs,
+      'memorySize': memorySize,
+      'cpuFrequency': cpuFrequency,
+      'systemGUID': systemGUID,
     };
   }
 }
 
-extension AndroidInfo on AndroidDeviceInfo {
+extension WindowsInfo on WindowsDeviceInfo {
   Map<String, dynamic> toJson() {
     return {
-      'version': version.toJson(),
-      'board': board,
-      'bootloader': bootloader,
-      'brand': brand,
-      'device': device,
-      'display': display,
-      'fingerprint': fingerprint,
-      'hardware': hardware,
-      'host': host,
-      'id': id,
-      'manufacturer': manufacturer,
-      'model': model,
-      'product': product,
-      'supported32BitAbis': supported32BitAbis,
-      'supported64BitAbis': supported64BitAbis,
-      'supportedAbis': supportedAbis,
-      'tags': tags,
-      'type': type,
-      'isPhysicalDevice': isPhysicalDevice,
-      'systemFeatures': systemFeatures,
-      'serialNumber': serialNumber,
-      'isLowRamDevice': isLowRamDevice,
-      'physicalRamSize': physicalRamSize,
-      'availableRamSize': availableRamSize,
+      'computerName': computerName,
+      'numberOfCores': numberOfCores,
+      'systemMemoryInMegabytes': systemMemoryInMegabytes,
+      'userName': userName,
+      'majorVersion': majorVersion,
+      'minorVersion': minorVersion,
+      'buildNumber': buildNumber,
+      'platformId': platformId,
+      'csdVersion': csdVersion,
+      'servicePackMajor': servicePackMajor,
+      'servicePackMinor': servicePackMinor,
+      'suitMask': suitMask,
+      'productType': productType,
+      'reserved': reserved,
+      'buildLab': buildLab,
+      'buildLabEx': buildLabEx,
+      'digitalProductId': digitalProductId,
+      'displayVersion': displayVersion,
+      'editionId': editionId,
+      'installDate': Timestamp.fromDate(installDate),
+      'productId': productId,
+      'productName': productName,
+      'registeredOwner': registeredOwner,
+      'releaseId': releaseId,
+      'deviceId': deviceId,
     };
   }
 }

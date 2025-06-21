@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+// App global variables and constants
+const String appName = 'Tiki Taka Scoreboard';
+const String appUserModelId = 'tiki_taka_scoreboard_desktop';
+const String appGUID = '657a64f1-ca4c-4e93-a5a3-b7ad2ce3a393';
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 const int numberOfShimmers = 5;
@@ -45,6 +50,8 @@ const String emptyLeague = '';
 // Firebase Messaging topics
 const String allDevicesTopic = 'all-devices';
 const String wearOSTopic = 'platform-wearos';
+const String macOSTopic = 'platform-macos';
+const String windowsTopic = 'platform-windows';
 
 // Notification types
 const String notificationTypeGoalHome = 'GOAL_HOME';

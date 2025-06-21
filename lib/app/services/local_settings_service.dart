@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -11,12 +13,20 @@ class LocalSettingsService {
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   late SharedPreferences _preferences;
-  late AndroidDeviceInfo _androidInfo;
+  late MacOsDeviceInfo? _macOsInfo;
+  late WindowsDeviceInfo? _windowsInfo;
   late PackageInfo _packageInfo;
 
   Future<void> initialize() async {
     _preferences = await SharedPreferences.getInstance();
-    _androidInfo = await DeviceInfoPlugin().androidInfo;
+    if (Platform.isMacOS) {
+      _macOsInfo = await DeviceInfoPlugin().macOsInfo;
+    } else if (Platform.isWindows) {
+      _windowsInfo = await DeviceInfoPlugin().windowsInfo;
+    } else {
+      _macOsInfo = null;
+      _windowsInfo = null;
+    }
     _packageInfo = await PackageInfo.fromPlatform();
   }
 
@@ -56,8 +66,12 @@ class LocalSettingsService {
         );
   }
 
-  AndroidDeviceInfo get androidInfo {
-    return _androidInfo;
+  MacOsDeviceInfo? get macOsInfo {
+    return _macOsInfo;
+  }
+
+  WindowsDeviceInfo? get windowsInfo {
+    return _windowsInfo;
   }
 
   PackageInfo get packageInfo {
