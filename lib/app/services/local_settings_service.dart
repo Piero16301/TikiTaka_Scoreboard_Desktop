@@ -21,7 +21,9 @@ class LocalSettingsService {
     _preferences = await SharedPreferences.getInstance();
     if (Platform.isMacOS) {
       _macOsInfo = await DeviceInfoPlugin().macOsInfo;
+      _windowsInfo = null;
     } else if (Platform.isWindows) {
+      _macOsInfo = null;
       _windowsInfo = await DeviceInfoPlugin().windowsInfo;
     } else {
       _macOsInfo = null;

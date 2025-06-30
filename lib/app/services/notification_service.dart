@@ -60,21 +60,22 @@ class NotificationService {
     final darkMode = await LocalSettingsService.instance.getDarkMode();
 
     // Setup Flutter local notifications
-    unawaited(
-      FirebaseFirestore.instance.collection(devicesCollection).doc(token).set(
-        {
-          'token': token,
-          'lastOpenAt': FieldValue.serverTimestamp(),
-          'androidInfo': null,
-          'macOsInfo': macOsInfo?.toJson(),
-          'windowsInfo': windowsInfo?.toJson(),
-          'language': localLanguage,
-          'darkMode': darkMode,
-          'enabledTeams': FieldValue.arrayUnion(<String>[]),
-        },
-        SetOptions(merge: true),
-      ),
-    );
+    await FirebaseFirestore.instance
+        .collection(devicesCollection)
+        .doc(token)
+        .set(
+          {
+            'token': token,
+            'lastOpenAt': FieldValue.serverTimestamp(),
+            'androidInfo': null,
+            'macOsInfo': macOsInfo?.toJson(),
+            'windowsInfo': windowsInfo?.toJson(),
+            'language': localLanguage,
+            'darkMode': darkMode,
+            'enabledTeams': FieldValue.arrayUnion(<String>[]),
+          },
+          SetOptions(merge: true),
+        );
   }
 
   String get token => _token;
