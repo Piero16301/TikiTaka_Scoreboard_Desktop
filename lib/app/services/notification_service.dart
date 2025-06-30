@@ -1,62 +1,47 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
 import 'package:tiki_taka_scoreboard_desktop/match/match.dart';
-
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await NotificationService.instance.setupFlutterNotifications();
-  await NotificationService.instance.showNotification(message);
-}
+import 'package:user_api/user_api.dart';
 
 class NotificationService {
   NotificationService._();
 
   static final NotificationService instance = NotificationService._();
 
-  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   String _token = '';
   final _localNotifications = FlutterLocalNotificationsPlugin();
   bool _isFlutterLocalNotificationsInitialized = false;
 
   Future<void> initialize() async {
-    // Background message handler
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-    // Request permission
-    await _requestPermission();
-
-    // Setup message handlers
-    await _setupMessageHandlers();
-
     // Setup Flutter local notifications
     await setupFlutterNotifications();
+
+    // Get MacOS device information
+    final macOsInfo = LocalSettingsService.instance.macOsInfo;
+
+    // Get Windows device information
+    final windowsInfo = LocalSettingsService.instance.windowsInfo;
 
     // Get FCM token
     String? token;
     try {
-      // Get APNs token
-      if (Platform.isMacOS || Platform.isWindows) {
-        final apnsToken = await _messaging.getAPNSToken();
-        if (apnsToken != null) {
-          debugPrint('APNs Token: $apnsToken');
-        } else {
-          await Future<void>.delayed(const Duration(seconds: 3));
-          final apnsToken = await _messaging.getAPNSToken();
-          if (apnsToken != null) {
-            debugPrint('APNs Token: $apnsToken');
-          } else {
-            debugPrint('No APNs token found after delay');
-          }
-        }
+      if (Platform.isMacOS) {
+        token = macOsInfo?.systemGUID;
+      } else if (Platform.isWindows) {
+        token = windowsInfo?.deviceId;
+      } else {
+        throw FirebaseException(
+          plugin: 'device_info_plus',
+          message: 'Unsupported platform for FCM token retrieval',
+          code: 'unsupported_platform',
+        );
       }
-      token = await _messaging.getToken();
-      debugPrint('FCM Token: $token');
     } on FirebaseException catch (e) {
       debugPrint('Error getting FCM token: $e');
     }
@@ -67,12 +52,6 @@ class NotificationService {
       return;
     }
 
-    // Get MacOS device information
-    final macOsInfo = LocalSettingsService.instance.macOsInfo;
-
-    // Get Windows device information
-    final windowsInfo = LocalSettingsService.instance.windowsInfo;
-
     // Get device locale
     final localLanguage = await LocalSettingsService.instance
         .getLocalLanguage();
@@ -81,51 +60,24 @@ class NotificationService {
     final darkMode = await LocalSettingsService.instance.getDarkMode();
 
     // Setup Flutter local notifications
-    await FirebaseFirestore.instance
-        .collection(notDevicesCollection)
-        .doc(token)
-        .set(
-          {
-            'token': token,
-            'lastOpenAt': FieldValue.serverTimestamp(),
-            'androidInfo': null,
-            'macOsInfo': macOsInfo?.toJson(),
-            'windowsInfo': windowsInfo?.toJson(),
-            'language': localLanguage,
-            'darkMode': darkMode,
-            'enabledTeams': FieldValue.arrayUnion(<String>[]),
-          },
-          SetOptions(merge: true),
-        );
-
-    // Subscribe to AllDevices topic
-    await subscribeToTopic(allDevicesTopic);
-
-    if (Platform.isMacOS) {
-      // Subscribe to MacOS topic
-      await subscribeToTopic(macOSTopic);
-    } else if (Platform.isWindows) {
-      // Subscribe to Windows topic
-      await subscribeToTopic(windowsTopic);
-    }
+    unawaited(
+      FirebaseFirestore.instance.collection(devicesCollection).doc(token).set(
+        {
+          'token': token,
+          'lastOpenAt': FieldValue.serverTimestamp(),
+          'androidInfo': null,
+          'macOsInfo': macOsInfo?.toJson(),
+          'windowsInfo': windowsInfo?.toJson(),
+          'language': localLanguage,
+          'darkMode': darkMode,
+          'enabledTeams': FieldValue.arrayUnion(<String>[]),
+        },
+        SetOptions(merge: true),
+      ),
+    );
   }
 
   String get token => _token;
-
-  Future<void> _requestPermission() async {
-    final settings = await _messaging.requestPermission();
-
-    switch (settings.authorizationStatus) {
-      case AuthorizationStatus.authorized:
-        debugPrint('User granted permission');
-      case AuthorizationStatus.denied:
-        debugPrint('User denied permission');
-      case AuthorizationStatus.provisional:
-        debugPrint('User granted provisional permission');
-      case AuthorizationStatus.notDetermined:
-        debugPrint('User has not yet made a choice');
-    }
-  }
 
   Future<void> setupFlutterNotifications() async {
     if (_isFlutterLocalNotificationsInitialized) return;
@@ -151,45 +103,25 @@ class NotificationService {
     _isFlutterLocalNotificationsInitialized = true;
   }
 
-  Future<void> showNotification(RemoteMessage message) async {
-    final notification = message.notification;
-    final android = message.notification?.android;
-    if (notification != null && android != null) {
-      await _localNotifications.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'high_importance_channel',
-            'High Importance Notifications',
-            channelDescription:
-                'This channel is used for important notifications.',
-            importance: Importance.high,
-            priority: Priority.high,
-            playSound: false,
-            icon: '@mipmap/ic_logo',
-          ),
+  Future<void> showNotification(AppMessage message) async {
+    await _localNotifications.show(
+      message.hashCode,
+      message.notification?.title ?? '',
+      message.notification?.body ?? '',
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'high_importance_channel',
+          'High Importance Notifications',
+          channelDescription:
+              'This channel is used for important notifications.',
+          importance: Importance.high,
+          priority: Priority.high,
+          playSound: false,
+          icon: '@mipmap/ic_logo',
         ),
-        payload: message.data['match'].toString(),
-      );
-    }
-  }
-
-  Future<void> _setupMessageHandlers() async {
-    // Foreground message handler
-    FirebaseMessaging.onMessage.listen(showNotification);
-
-    // Background message handler
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      _handleBackgroundMessage(message.data['match'] as String? ?? '');
-    });
-
-    // Opened app
-    final initialMessage = await _messaging.getInitialMessage();
-    if (initialMessage != null) {
-      _handleBackgroundMessage(initialMessage.data['match'] as String? ?? '');
-    }
+      ),
+      payload: message.data['match'].toString(),
+    );
   }
 
   void _handleBackgroundMessage(String message) {
@@ -205,16 +137,6 @@ class NotificationService {
           )
           .ignore();
     }
-  }
-
-  Future<void> subscribeToTopic(String topic) async {
-    await _messaging.subscribeToTopic(topic);
-    debugPrint('Subscribed to topic: $topic');
-  }
-
-  Future<void> unsubscribeFromTopic(String topic) async {
-    await _messaging.unsubscribeFromTopic(topic);
-    debugPrint('Unsubscribed from topic: $topic');
   }
 }
 

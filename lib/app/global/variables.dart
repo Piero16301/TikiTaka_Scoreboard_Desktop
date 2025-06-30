@@ -41,7 +41,8 @@ const String configsCollection = 'configs';
 const String leaguesCollection = 'leagues';
 const String standingsCollection = 'standings';
 const String teamsCollection = 'teams';
-const String notDevicesCollection = 'notification-devices';
+const String devicesCollection = 'devices';
+const String notificationsCollection = 'notifications';
 
 // Firestore fields
 const String utcDate = 'utcDate';

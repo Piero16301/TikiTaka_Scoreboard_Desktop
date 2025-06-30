@@ -123,7 +123,7 @@ class TeamsView extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                      stream: context.read<TeamsCubit>().getNotDevices(),
+                      stream: context.read<TeamsCubit>().getDevices(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return const SizedBox.shrink();

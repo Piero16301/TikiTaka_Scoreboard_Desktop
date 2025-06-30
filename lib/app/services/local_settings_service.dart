@@ -44,7 +44,7 @@ class LocalSettingsService {
 
   void saveLanguageOnFirestore({String language = 'en_US'}) {
     firestore
-        .collection(notDevicesCollection)
+        .collection(devicesCollection)
         .doc(NotificationService.instance.token)
         .set(
           {
@@ -56,7 +56,7 @@ class LocalSettingsService {
 
   void saveDarkModeOnFirestore({bool darkMode = true}) {
     firestore
-        .collection(notDevicesCollection)
+        .collection(devicesCollection)
         .doc(NotificationService.instance.token)
         .set(
           {
