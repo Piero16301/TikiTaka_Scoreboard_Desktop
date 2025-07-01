@@ -293,10 +293,13 @@ class MatchCardHome extends StatelessWidget {
 
     return AppCardData(
       child: GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed(
-          MatchPage.routeName,
-          arguments: match.id,
-        ),
+        onTap: () {
+          NotificationService.instance.showNotification(demoNotification);
+          Navigator.of(context).pushNamed(
+            MatchPage.routeName,
+            arguments: match.id,
+          );
+        },
         child: Column(
           children: [
             Text(

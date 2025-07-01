@@ -109,16 +109,8 @@ class NotificationService {
       message.notification?.title ?? '',
       message.notification?.body ?? '',
       const NotificationDetails(
-        android: AndroidNotificationDetails(
-          'high_importance_channel',
-          'High Importance Notifications',
-          channelDescription:
-              'This channel is used for important notifications.',
-          importance: Importance.high,
-          priority: Priority.high,
-          playSound: false,
-          icon: '@mipmap/ic_logo',
-        ),
+        macOS: DarwinNotificationDetails(),
+        windows: WindowsNotificationDetails(),
       ),
       payload: message.data['match'].toString(),
     );

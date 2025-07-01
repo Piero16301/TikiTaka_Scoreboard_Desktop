@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:user_api/user_api.dart';
 
 // App global variables and constants
 const String appName = 'Tiki Taka Scoreboard';
@@ -58,3 +59,29 @@ const String windowsTopic = 'platform-windows';
 const String notificationTypeGoalHome = 'GOAL_HOME';
 const String notificationTypeGoalAway = 'GOAL_AWAY';
 const String notificationTypeMatchStatus = 'MATCH_STATUS';
+
+// Demo notification
+final AppMessage demoNotification = AppMessage(
+  senderId: 'backend-service',
+  collapseKey: 'demo_notification',
+  from: 'backend-service',
+  messageId: 'demo_notification_001',
+  messageType: 'notification',
+  notification: const AppNotification(
+    title: '¡Gol de FC Barcelona! ⚽',
+    body: '🔴🔵 Barça 4️⃣ - 3️⃣ Real Madrid ⚪⚪',
+    channelId: 'high_importance_channel',
+    clickAction: 'FLUTTER_NOTIFICATION_CLICK',
+    color: '#FF0000',
+    count: 1,
+    imageUrl: 'https://picsum.photos/id/11/300',
+    priority: NotificationPriority.highPriority,
+    ticker: 'Demo Ticker',
+    visibility: NotificationVisibility.public,
+    tag: 'demo_notification_tag',
+  ),
+  sentTime: DateTime.now(),
+  data: const {
+    'match': 'matchId:498957',
+  },
+);
