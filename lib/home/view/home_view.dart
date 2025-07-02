@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
 import 'package:tiki_taka_scoreboard_desktop/home/home.dart';
@@ -26,8 +26,8 @@ class HomeView extends StatelessWidget {
           stream: context.read<HomeCubit>().getMatches(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return Scaffold(
-                body: SizedBox.expand(
+              return NavigationView(
+                content: SizedBox.expand(
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: SingleChildScrollView(
@@ -61,8 +61,8 @@ class HomeView extends StatelessWidget {
             }
 
             if (snapshot.hasError) {
-              return Scaffold(
-                body: SizedBox.expand(
+              return NavigationView(
+                content: SizedBox.expand(
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Center(
@@ -82,8 +82,8 @@ class HomeView extends StatelessWidget {
             }
 
             if (snapshot.data!.docs.isEmpty) {
-              return Scaffold(
-                body: SizedBox.expand(
+              return NavigationView(
+                content: SizedBox.expand(
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Center(
@@ -124,8 +124,8 @@ class HomeView extends StatelessWidget {
                     return aStatus.compareTo(bStatus);
                   });
 
-            return Scaffold(
-              body: SizedBox.expand(
+            return NavigationView(
+              content: SizedBox.expand(
                 child: Padding(
                   padding: const EdgeInsets.all(8),
                   child: SingleChildScrollView(
@@ -293,13 +293,10 @@ class MatchCardHome extends StatelessWidget {
 
     return AppCardData(
       child: GestureDetector(
-        onTap: () {
-          NotificationService.instance.showNotification(demoNotification);
-          Navigator.of(context).pushNamed(
-            MatchPage.routeName,
-            arguments: match.id,
-          );
-        },
+        onTap: () => Navigator.of(context).pushNamed(
+          MatchPage.routeName,
+          arguments: match.id,
+        ),
         child: Column(
           children: [
             Text(
@@ -384,10 +381,7 @@ class MatchCardHome extends StatelessWidget {
             const SizedBox(height: 5),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
-              child: LinearProgressIndicator(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                backgroundColor: Colors.grey,
-              ),
+              child: ProgressBar(backgroundColor: Colors.grey),
             ),
           ],
         ),
@@ -427,7 +421,7 @@ class SettingsHome extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: ElevatedButton(
+      child: FilledButton(
         onPressed: () async {
           final reload =
               (await Navigator.of(context).pushNamed(SettingsPage.routeName))

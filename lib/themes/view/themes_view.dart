@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
@@ -11,8 +11,8 @@ class ThemesView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Scaffold(
-      body: SizedBox.expand(
+    return NavigationView(
+      content: SizedBox.expand(
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: SingleChildScrollView(
@@ -69,16 +69,18 @@ class CardThemes extends StatelessWidget {
       child: Row(
         children: [
           BlocBuilder<AppCubit, AppState>(
-            builder: (context, state) => Radio<bool>(
-              value: isDark,
-              groupValue: state.darkMode,
-              onChanged: (v) =>
-                  context.read<AppCubit>().changeTheme(darkMode: v ?? true),
+            builder: (context, state) => RadioButton(
+              checked: isDark,
+              onChanged: (checked) {
+                if (checked) {
+                  context.read<AppCubit>().changeTheme(darkMode: isDark);
+                }
+              },
             ),
           ),
           HugeIcon(
             icon: icon,
-            color: Theme.of(context).colorScheme.primary,
+            color: FluentTheme.of(context).accentColor,
           ),
           const SizedBox(width: 10),
           Expanded(child: ScrollText(text: text)),
@@ -97,7 +99,7 @@ class BackButtonLanguages extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: ElevatedButton(
+      child: FilledButton(
         onPressed: () => Navigator.of(context).pop(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -1,5 +1,5 @@
 import 'package:dash_flags/dash_flags.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
 import 'package:tiki_taka_scoreboard_desktop/l10n/l10n.dart';
@@ -11,8 +11,8 @@ class LanguagesView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Scaffold(
-      body: SizedBox.expand(
+    return NavigationView(
+      content: SizedBox.expand(
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: SingleChildScrollView(
@@ -75,7 +75,6 @@ class CardLanguages extends StatelessWidget {
       child: SizedBox(
         height: 50,
         child: Card(
-          clipBehavior: Clip.antiAliasWithSaveLayer,
           child: Stack(
             children: [
               Opacity(
@@ -88,11 +87,13 @@ class CardLanguages extends StatelessWidget {
               Row(
                 children: [
                   BlocBuilder<AppCubit, AppState>(
-                    builder: (context, state) => Radio<String>(
-                      value: value,
-                      groupValue: state.language,
-                      onChanged: (v) =>
-                          context.read<AppCubit>().changeLanguage(v ?? value),
+                    builder: (context, state) => RadioButton(
+                      checked: state.language == value,
+                      onChanged: (checked) {
+                        if (checked) {
+                          context.read<AppCubit>().changeLanguage(value);
+                        }
+                      },
                     ),
                   ),
                   Expanded(child: ScrollText(text: language)),
@@ -115,7 +116,7 @@ class BackButtonLanguages extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: ElevatedButton(
+      child: FilledButton(
         onPressed: () => Navigator.of(context).pop(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

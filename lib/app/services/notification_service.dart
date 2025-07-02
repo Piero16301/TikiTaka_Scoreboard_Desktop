@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
 import 'package:tiki_taka_scoreboard_desktop/match/match.dart';

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
 import 'package:tiki_taka_scoreboard_desktop/l10n/l10n.dart';
@@ -20,14 +20,12 @@ class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AppCubit, AppState>(
-      builder: (context, state) => MaterialApp(
+      builder: (context, state) => FluentApp(
         title: 'Tiki Taka',
         navigatorKey: navigatorKey,
         theme: AppThemes.lightTheme,
         darkTheme: AppThemes.darkTheme,
         themeMode: state.darkMode ? ThemeMode.dark : ThemeMode.light,
-        themeAnimationCurve: Curves.easeInOut,
-        themeAnimationDuration: const Duration(milliseconds: 500),
         locale: Locale(
           state.language.split('_').first,
           state.language.split('_').last,

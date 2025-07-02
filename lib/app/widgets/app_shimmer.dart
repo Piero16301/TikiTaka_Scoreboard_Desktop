@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 class AppSchimmer extends StatelessWidget {
@@ -22,9 +22,7 @@ class AppSchimmer extends StatelessWidget {
           height: height,
           width: width,
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.onSurface.withValues(
-              alpha: 0.1,
-            ),
+            color: FluentTheme.of(context).shadowColor.withValues(alpha: 0.1),
             borderRadius: borderRadius ?? BorderRadius.circular(10),
           ),
         ),

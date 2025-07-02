@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
 import 'package:tiki_taka_scoreboard_desktop/l10n/l10n.dart';
@@ -17,8 +17,8 @@ class TeamsView extends StatelessWidget {
       stream: context.read<TeamsCubit>().getTeams(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Scaffold(
-            body: SizedBox.expand(
+          return NavigationView(
+            content: SizedBox.expand(
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: SingleChildScrollView(
@@ -51,9 +51,8 @@ class TeamsView extends StatelessWidget {
         }
 
         if (snapshot.hasError) {
-          return Scaffold(
-            backgroundColor: Colors.black,
-            body: SizedBox.expand(
+          return NavigationView(
+            content: SizedBox.expand(
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Center(
@@ -76,8 +75,8 @@ class TeamsView extends StatelessWidget {
         }
 
         if (snapshot.data!.docs.isEmpty) {
-          return Scaffold(
-            body: SizedBox.expand(
+          return NavigationView(
+            content: SizedBox.expand(
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Center(
@@ -103,8 +102,8 @@ class TeamsView extends StatelessWidget {
             .map((doc) => Team.fromJson(doc.data()))
             .toList();
 
-        return Scaffold(
-          body: SizedBox.expand(
+        return NavigationView(
+          content: SizedBox.expand(
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: SingleChildScrollView(
@@ -181,9 +180,8 @@ class ShimmerCardTeams extends StatelessWidget {
             width: 40,
             child: FittedBox(
               fit: BoxFit.fill,
-              child: Switch(
-                padding: EdgeInsets.zero,
-                value: false,
+              child: ToggleSwitch(
+                checked: false,
                 onChanged: null,
               ),
             ),
@@ -220,9 +218,8 @@ class TeamCardTeams extends StatelessWidget {
                 width: 40,
                 child: FittedBox(
                   fit: BoxFit.fill,
-                  child: Switch(
-                    padding: EdgeInsets.zero,
-                    value: enabled,
+                  child: ToggleSwitch(
+                    checked: enabled,
                     onChanged: (value) {
                       context.read<TeamsCubit>().toggleTeam(
                         team: team,
@@ -253,7 +250,7 @@ class BackButtonTeams extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: ElevatedButton(
+      child: FilledButton(
         onPressed: () => Navigator.of(context).pop(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

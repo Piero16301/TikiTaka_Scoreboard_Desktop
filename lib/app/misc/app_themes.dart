@@ -1,24 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
 
 class AppThemes {
-  static final darkTheme = ThemeData(
-    fontFamily: GoogleFonts.montserrat().fontFamily,
-    useMaterial3: true,
+  static final darkTheme = FluentThemeData(
+    fontFamily: appFont.fontFamily,
     visualDensity: VisualDensity.compact,
     brightness: Brightness.dark,
     scaffoldBackgroundColor: Colors.black,
-    cardTheme: CardThemeData(
-      color: const Color.fromRGBO(50, 49, 47, 1),
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(Colors.white),
-        foregroundColor: WidgetStateProperty.all(Colors.black),
+    cardColor: const Color.fromRGBO(50, 49, 47, 1),
+    buttonTheme: ButtonThemeData(
+      filledButtonStyle: ButtonStyle(
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
@@ -26,27 +17,16 @@ class AppThemes {
         ),
       ),
     ),
-    dividerColor: Colors.transparent,
-    colorScheme: const ColorScheme.dark(primary: Colors.white),
   );
 
-  static final lightTheme = ThemeData(
-    fontFamily: GoogleFonts.montserrat().fontFamily,
-    useMaterial3: true,
+  static final lightTheme = FluentThemeData(
+    fontFamily: appFont.fontFamily,
     visualDensity: VisualDensity.compact,
     brightness: Brightness.light,
     scaffoldBackgroundColor: Colors.white,
-    cardTheme: CardThemeData(
-      color: const Color.fromARGB(255, 207, 207, 207),
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(Colors.black),
-        foregroundColor: WidgetStateProperty.all(Colors.white),
+    cardColor: const Color.fromARGB(255, 207, 207, 207),
+    buttonTheme: ButtonThemeData(
+      filledButtonStyle: ButtonStyle(
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
@@ -54,7 +34,5 @@ class AppThemes {
         ),
       ),
     ),
-    dividerColor: Colors.transparent,
-    colorScheme: const ColorScheme.light(primary: Colors.black),
   );
 }

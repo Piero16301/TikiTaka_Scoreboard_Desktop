@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
 import 'package:tiki_taka_scoreboard_desktop/l10n/l10n.dart';
@@ -18,8 +18,8 @@ class NotificationsView extends StatelessWidget {
       stream: context.read<NotificationsCubit>().getLeagues(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Scaffold(
-            body: SizedBox.expand(
+          return NavigationView(
+            content: SizedBox.expand(
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: SingleChildScrollView(
@@ -52,9 +52,8 @@ class NotificationsView extends StatelessWidget {
         }
 
         if (snapshot.hasError) {
-          return Scaffold(
-            backgroundColor: Colors.black,
-            body: SizedBox.expand(
+          return NavigationView(
+            content: SizedBox.expand(
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Center(
@@ -77,8 +76,8 @@ class NotificationsView extends StatelessWidget {
         }
 
         if (snapshot.data!.docs.isEmpty) {
-          return Scaffold(
-            body: SizedBox.expand(
+          return NavigationView(
+            content: SizedBox.expand(
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Center(
@@ -104,8 +103,8 @@ class NotificationsView extends StatelessWidget {
             .map((doc) => League.fromJson(doc.data()))
             .toList();
 
-        return Scaffold(
-          body: SizedBox.expand(
+        return NavigationView(
+          content: SizedBox.expand(
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: SingleChildScrollView(
@@ -156,8 +155,7 @@ class ShimmerCardNotifications extends StatelessWidget {
             dimension: 40,
             child: IconButton(
               onPressed: null,
-              icon: Icon(Icons.arrow_forward_ios),
-              padding: EdgeInsets.zero,
+              icon: Icon(FluentIcons.forward),
             ),
           ),
         ],
@@ -190,8 +188,7 @@ class LeagueCardNotifications extends StatelessWidget {
                 TeamsPage.routeName,
                 arguments: league.id,
               ),
-              icon: const Icon(Icons.arrow_forward_ios),
-              padding: EdgeInsets.zero,
+              icon: const Icon(FluentIcons.forward),
             ),
           ),
         ],
@@ -209,7 +206,7 @@ class BackButtonNotifications extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: ElevatedButton(
+      child: FilledButton(
         onPressed: () => Navigator.of(context).pop(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

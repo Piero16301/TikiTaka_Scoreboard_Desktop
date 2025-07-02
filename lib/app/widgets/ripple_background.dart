@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/widgets/widgets.dart';
 
 class RippleBackground extends StatefulWidget {

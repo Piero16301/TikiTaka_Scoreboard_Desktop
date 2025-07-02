@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
@@ -15,8 +15,8 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Scaffold(
-      body: SizedBox.expand(
+    return NavigationView(
+      content: SizedBox.expand(
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: SingleChildScrollView(
@@ -87,15 +87,14 @@ class ConfigurationSetting extends StatelessWidget {
           HugeIcon(
             icon: icon,
             size: 30,
-            color: Theme.of(context).colorScheme.primary,
+            color: FluentTheme.of(context).accentColor,
           ),
           const SizedBox(width: 5),
           Expanded(child: ScrollText(text: title)),
           const SizedBox(width: 5),
           IconButton(
             onPressed: () => Navigator.of(context).pushNamed(route),
-            icon: const Icon(Icons.arrow_forward_ios),
-            padding: EdgeInsets.zero,
+            icon: const Icon(FluentIcons.forward),
           ),
         ],
       ),
@@ -112,7 +111,7 @@ class BackButtonSettings extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: ElevatedButton(
+      child: FilledButton(
         onPressed: () => Navigator.of(context).pop(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

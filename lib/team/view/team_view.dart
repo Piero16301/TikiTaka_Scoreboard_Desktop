@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
@@ -20,8 +20,8 @@ class TeamView extends StatelessWidget {
       stream: context.read<TeamCubit>().getTeam(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Scaffold(
-            body: SizedBox.expand(
+          return NavigationView(
+            content: SizedBox.expand(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: SingleChildScrollView(
@@ -46,8 +46,8 @@ class TeamView extends StatelessWidget {
         }
 
         if (snapshot.hasError) {
-          return Scaffold(
-            body: SizedBox.expand(
+          return NavigationView(
+            content: SizedBox.expand(
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Center(
@@ -70,8 +70,8 @@ class TeamView extends StatelessWidget {
         }
 
         if (snapshot.data!.docs.isEmpty) {
-          return Scaffold(
-            body: SizedBox.expand(
+          return NavigationView(
+            content: SizedBox.expand(
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Center(
@@ -99,8 +99,8 @@ class TeamView extends StatelessWidget {
             .toList()
             .first;
 
-        return Scaffold(
-          body: SizedBox.expand(
+        return NavigationView(
+          content: SizedBox.expand(
             child: RippleBackground(
               colors: getTeamColors(team.clubColors),
               child: Padding(
@@ -242,7 +242,7 @@ class ShimmerCoachCardTeam extends StatelessWidget {
             children: [
               HugeIcon(
                 icon: HugeIcons.strokeRoundedMentoring,
-                color: Theme.of(context).colorScheme.primary,
+                color: FluentTheme.of(context).accentColor,
                 size: 20,
               ),
               const SizedBox(width: 10),
@@ -300,7 +300,7 @@ class CoachCardTeam extends StatelessWidget {
             children: [
               HugeIcon(
                 icon: HugeIcons.strokeRoundedMentoring,
-                color: Theme.of(context).colorScheme.primary,
+                color: FluentTheme.of(context).accentColor,
                 size: 20,
               ),
               const SizedBox(width: 10),
@@ -388,17 +388,15 @@ class ShimmerExpandableCardTeam extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppCardData(
-      child: ExpansionTile(
-        tilePadding: EdgeInsets.zero,
-        minTileHeight: 20,
-        title: Text(
+      child: Expander(
+        header: Text(
           title.toUpperCase(),
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 12,
           ),
         ),
-        childrenPadding: const EdgeInsets.only(top: 5),
+        content: const SizedBox.shrink(),
       ),
     );
   }
@@ -417,52 +415,51 @@ class CompetitionsCardTeam extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return AppCardData(
-      child: ExpansionTile(
-        tilePadding: EdgeInsets.zero,
-        minTileHeight: 20,
-        title: Text(
+      child: Expander(
+        header: Text(
           l10n.competitionsTeam.toUpperCase(),
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 12,
           ),
         ),
-        childrenPadding: const EdgeInsets.only(top: 5),
-        children: competitions
-            .map(
-              (competition) => Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Row(
-                  children: [
-                    CrestImage(
-                      crest: competition.emblem,
-                      fit: BoxFit.cover,
-                      dimension: 30,
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ScrollText(text: competition.name),
-                          Text(
-                            getCompetitionType(
-                              competition.type,
-                              l10n,
-                            ).toUpperCase(),
-                            style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+        content: Column(
+          children: competitions
+              .map(
+                (competition) => Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      CrestImage(
+                        crest: competition.emblem,
+                        fit: BoxFit.cover,
+                        dimension: 30,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ScrollText(text: competition.name),
+                            Text(
+                              getCompetitionType(
+                                competition.type,
+                                l10n,
+                              ).toUpperCase(),
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            )
-            .toList(),
+              )
+              .toList(),
+        ),
       ),
     );
   }
@@ -481,82 +478,81 @@ class SquadCardTeam extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return AppCardData(
-      child: ExpansionTile(
-        tilePadding: EdgeInsets.zero,
-        minTileHeight: 20,
-        title: Text(
+      child: Expander(
+        header: Text(
           l10n.squadTeam.toUpperCase(),
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 12,
           ),
         ),
-        childrenPadding: const EdgeInsets.only(top: 5),
-        children: squad
-            .map(
-              (player) => Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Row(
-                  children: [
-                    HugeIcon(
-                      icon: getStaffPositionIcon(player.position),
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ScrollText(
-                            text: player.name,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 11,
-                            ),
-                          ),
-                          Text(
-                            player.nationality,
-                            style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            l10n.ageTeam(getAge(player.dateOfBirth)),
-                            style: const TextStyle(
-                              fontSize: 9,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+        content: Column(
+          children: squad
+              .map(
+                (player) => Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      HugeIcon(
+                        icon: getStaffPositionIcon(player.position),
+                        color: FluentTheme.of(context).accentColor,
+                        size: 20,
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    Container(
-                      width: 30,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: getStaffPositionColor(player.position),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        getStaffPosition(player.position, l10n),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ScrollText(
+                              text: player.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 11,
+                              ),
+                            ),
+                            Text(
+                              player.nationality,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              l10n.ageTeam(getAge(player.dateOfBirth)),
+                              style: const TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 10),
+                      Container(
+                        width: 30,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: getStaffPositionColor(player.position),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          getStaffPosition(player.position, l10n),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            )
-            .toList(),
+              )
+              .toList(),
+        ),
       ),
     );
   }
@@ -588,82 +584,81 @@ class StaffCardTeam extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return AppCardData(
-      child: ExpansionTile(
-        tilePadding: EdgeInsets.zero,
-        minTileHeight: 20,
-        title: Text(
+      child: Expander(
+        header: Text(
           l10n.staffTeam.toUpperCase(),
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 12,
           ),
         ),
-        childrenPadding: const EdgeInsets.only(top: 5),
-        children: staff
-            .map(
-              (personal) => Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Row(
-                  children: [
-                    HugeIcon(
-                      icon: getStaffPositionIcon(personal.position),
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ScrollText(
-                            text: personal.name,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 11,
-                            ),
-                          ),
-                          Text(
-                            personal.nationality,
-                            style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            l10n.ageTeam(getAge(personal.dateOfBirth)),
-                            style: const TextStyle(
-                              fontSize: 9,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+        content: Column(
+          children: staff
+              .map(
+                (personal) => Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      HugeIcon(
+                        icon: getStaffPositionIcon(personal.position),
+                        color: FluentTheme.of(context).accentColor,
+                        size: 20,
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    Container(
-                      width: 30,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: getStaffPositionColor(personal.position),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        getStaffPosition(personal.position, l10n),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ScrollText(
+                              text: personal.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 11,
+                              ),
+                            ),
+                            Text(
+                              personal.nationality,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              l10n.ageTeam(getAge(personal.dateOfBirth)),
+                              style: const TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 10),
+                      Container(
+                        width: 30,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: getStaffPositionColor(personal.position),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          getStaffPosition(personal.position, l10n),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            )
-            .toList(),
+              )
+              .toList(),
+        ),
       ),
     );
   }
@@ -695,43 +690,42 @@ class AdditionalInfoTeam extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return AppCardData(
-      child: ExpansionTile(
-        tilePadding: EdgeInsets.zero,
-        minTileHeight: 20,
-        title: Text(
+      child: Expander(
+        header: Text(
           l10n.infoTeam.toUpperCase(),
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 12,
           ),
         ),
-        childrenPadding: const EdgeInsets.only(top: 5),
-        children: [
-          buildInfoRow(
-            icon: HugeIcons.strokeRoundedColosseum,
-            title: l10n.stadiumTeam,
-            value: team.venue,
-            context: context,
-          ),
-          buildInfoRow(
-            icon: HugeIcons.strokeRoundedClock02,
-            title: l10n.foundedTeam,
-            value: team.founded.toString(),
-            context: context,
-          ),
-          buildInfoRow(
-            icon: HugeIcons.strokeRoundedLocation01,
-            title: l10n.addressTeam,
-            value: team.address,
-            context: context,
-          ),
-          buildInfoRow(
-            icon: HugeIcons.strokeRoundedInternet,
-            title: l10n.websiteTeam,
-            value: team.website,
-            context: context,
-          ),
-        ],
+        content: Column(
+          children: [
+            buildInfoRow(
+              icon: HugeIcons.strokeRoundedColosseum,
+              title: l10n.stadiumTeam,
+              value: team.venue,
+              context: context,
+            ),
+            buildInfoRow(
+              icon: HugeIcons.strokeRoundedClock02,
+              title: l10n.foundedTeam,
+              value: team.founded.toString(),
+              context: context,
+            ),
+            buildInfoRow(
+              icon: HugeIcons.strokeRoundedLocation01,
+              title: l10n.addressTeam,
+              value: team.address,
+              context: context,
+            ),
+            buildInfoRow(
+              icon: HugeIcons.strokeRoundedInternet,
+              title: l10n.websiteTeam,
+              value: team.website,
+              context: context,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -749,7 +743,7 @@ class AdditionalInfoTeam extends StatelessWidget {
         children: [
           HugeIcon(
             icon: icon,
-            color: Theme.of(context).colorScheme.primary,
+            color: FluentTheme.of(context).accentColor,
             size: 20,
           ),
           Expanded(
@@ -863,7 +857,7 @@ class BackButtonTeam extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: ElevatedButton(
+      child: FilledButton(
         onPressed: () => Navigator.of(context).pop(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

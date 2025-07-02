@@ -1,7 +1,7 @@
 import 'dart:developer';
 
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
@@ -147,14 +147,14 @@ Color getStaffPositionColor(String position) {
   switch (position) {
     // Goalkeeper positions
     case 'Goalkeeper':
-      return Colors.orange.shade600;
+      return Colors.orange;
 
     // Defensive positions
     case 'Defence':
     case 'Left-Back':
     case 'Centre-Back':
     case 'Right-Back':
-      return Colors.blue.shade600;
+      return Colors.blue;
 
     // Midfield positions
     case 'Midfield':
@@ -163,7 +163,7 @@ Color getStaffPositionColor(String position) {
     case 'Left Midfield':
     case 'Right Midfield':
     case 'Attacking Midfield':
-      return Colors.green.shade600;
+      return Colors.green;
 
     // Offensive positions
     case 'Offence':
@@ -171,7 +171,7 @@ Color getStaffPositionColor(String position) {
     case 'Left Winger':
     case 'Right Winger':
     case 'Secondary Forward':
-      return Colors.red.shade600;
+      return Colors.red;
 
     // Technical staff
     case 'Coach':
@@ -179,10 +179,10 @@ Color getStaffPositionColor(String position) {
     case 'Goalkeeping Coach':
     case 'Forward Coach':
     case 'Caretaker Manager':
-      return Colors.purple.shade600;
+      return Colors.purple;
 
     default:
-      return Colors.grey.shade600;
+      return Colors.grey;
   }
 }
 

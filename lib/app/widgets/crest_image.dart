@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
@@ -26,7 +26,7 @@ class CrestImage extends StatelessWidget {
             loader: NetworkSvgLoader(crest),
             fit: fit,
             errorBuilder: (context, error, stackTrace) => Icon(
-              Icons.image,
+              FluentIcons.picture,
               size: dimension,
             ),
           ),
@@ -41,7 +41,7 @@ class CrestImage extends StatelessWidget {
           height: dimension,
           fit: fit,
           errorBuilder: (context, error, stackTrace) => Icon(
-            Icons.image,
+            FluentIcons.picture,
             size: dimension,
           ),
         ),
