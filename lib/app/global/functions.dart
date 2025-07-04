@@ -61,13 +61,13 @@ List<Color> getTeamColors(String colors) {
   final list = colors.split(' / ');
   final colorIcons = <Color>[];
   for (final color in list) {
-    colorIcons.add(colorMap[color] ?? defaultColor);
+    colorIcons.add(AppVariables.colorMap[color] ?? AppVariables.defaultColor);
   }
 
   if (colorIcons.isEmpty) {
     colorIcons
-      ..add(defaultColor)
-      ..add(defaultColor);
+      ..add(AppVariables.defaultColor)
+      ..add(AppVariables.defaultColor);
   } else if (colorIcons.length == 1) {
     colorIcons.add(colorIcons.first);
   } else if (colorIcons.length > 2) {

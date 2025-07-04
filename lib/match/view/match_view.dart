@@ -33,10 +33,7 @@ class MatchView extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         child: ScrollText(
                           text: l10n.titleMatch.toUpperCase(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: titleSize,
-                          ),
+                          style: AppVariables().appTitleFont,
                         ),
                       ),
                       const LastUpdateMatch(isLoading: true),
@@ -121,10 +118,7 @@ class MatchView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       child: ScrollText(
                         text: l10n.titleMatch.toUpperCase(),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: titleSize,
-                        ),
+                        style: AppVariables().appTitleFont,
                       ),
                     ),
                     const LastUpdateMatch(),
@@ -200,11 +194,19 @@ class _LastUpdateMatchState extends State<LastUpdateMatch>
             snapshot.data?.docs
                 .map((doc) => Config.fromJson(doc.data()))
                 .toList() ??
-            [Config(id: matchesCollection, lastUpdate: DateTime.now())];
+            [
+              Config(
+                id: AppVariables.matchesCollection,
+                lastUpdate: DateTime.now(),
+              ),
+            ];
 
         if (configs.isEmpty) {
           configs.add(
-            Config(id: matchesCollection, lastUpdate: DateTime.now()),
+            Config(
+              id: AppVariables.matchesCollection,
+              lastUpdate: DateTime.now(),
+            ),
           );
         }
 
@@ -737,7 +739,7 @@ class ShimmerStandingsMatch extends StatelessWidget {
                 ],
               ),
               ...List.generate(
-                numberOfShimmers * 4,
+                AppVariables.numberOfShimmers * 4,
                 (index) => Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 2.5,
@@ -828,7 +830,8 @@ class StandingsMatch extends StatelessWidget {
         }
 
         final standingsList =
-            result.first[standingsCollection] as List<dynamic>? ?? [];
+            result.first[AppVariables.standingsCollection] as List<dynamic>? ??
+            [];
         if (standingsList.isEmpty) {
           return const SizedBox.shrink();
         }

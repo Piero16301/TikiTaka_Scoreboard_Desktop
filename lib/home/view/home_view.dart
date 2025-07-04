@@ -27,33 +27,36 @@ class HomeView extends StatelessWidget {
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return NavigationView(
-                content: SizedBox.expand(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 20),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40),
-                            child: ScrollText(
-                              text: l10n.titleMatches.toUpperCase(),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: titleSize,
-                              ),
+                content: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 20,
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SettingsHome(),
+                            Column(
+                              children: [
+                                ScrollText(
+                                  text: l10n.titleMatches.toUpperCase(),
+                                  style: AppVariables().appTitleFont,
+                                ),
+                                const LastUpdateHome(isLoading: true),
+                              ],
                             ),
-                          ),
-                          const LastUpdateHome(isLoading: true),
-                          const SizedBox(height: 10),
-                          ...List.generate(
-                            numberOfShimmers,
-                            (index) => const ShimmerMatchCardHome(),
-                          ),
-                          const SettingsHome(),
-                          const SizedBox(height: 50),
-                        ],
-                      ),
+                            const SizedBox.square(dimension: 32),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        ...List.generate(
+                          AppVariables.numberOfShimmers,
+                          (index) => const ShimmerMatchCardHome(),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -62,20 +65,36 @@ class HomeView extends StatelessWidget {
 
             if (snapshot.hasError) {
               return NavigationView(
-                content: SizedBox.expand(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                content: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 20,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: ScrollText(text: l10n.errorMatches),
+                          const SettingsHome(),
+                          Column(
+                            children: [
+                              ScrollText(
+                                text: l10n.titleMatches.toUpperCase(),
+                                style: AppVariables().appTitleFont,
+                              ),
+                              const LastUpdateHome(),
+                            ],
                           ),
+                          const SizedBox.square(dimension: 32),
                         ],
                       ),
-                    ),
+                      Expanded(
+                        child: Center(
+                          child: ScrollText(text: l10n.errorMatches),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               );
@@ -83,21 +102,36 @@ class HomeView extends StatelessWidget {
 
             if (snapshot.data!.docs.isEmpty) {
               return NavigationView(
-                content: SizedBox.expand(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                content: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 20,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: ScrollText(text: l10n.emptyMatches),
-                          ),
                           const SettingsHome(),
+                          Column(
+                            children: [
+                              ScrollText(
+                                text: l10n.titleMatches.toUpperCase(),
+                                style: AppVariables().appTitleFont,
+                              ),
+                              const LastUpdateHome(),
+                            ],
+                          ),
+                          const SizedBox.square(dimension: 32),
                         ],
                       ),
-                    ),
+                      Expanded(
+                        child: Center(
+                          child: ScrollText(text: l10n.emptyMatches),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               );
@@ -125,32 +159,35 @@ class HomeView extends StatelessWidget {
                   });
 
             return NavigationView(
-              content: SizedBox.expand(
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 40),
-                          child: ScrollText(
-                            text: l10n.titleMatches.toUpperCase(),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: titleSize,
-                            ),
+              content: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20,
+                  horizontal: 20,
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const SettingsHome(),
+                          Column(
+                            children: [
+                              ScrollText(
+                                text: l10n.titleMatches.toUpperCase(),
+                                style: AppVariables().appTitleFont,
+                              ),
+                              const LastUpdateHome(),
+                            ],
                           ),
-                        ),
-                        const LastUpdateHome(),
-                        const SizedBox(height: 10),
-                        ...matches.map(
-                          (match) => MatchCardHome(match: match),
-                        ),
-                        const SettingsHome(),
-                        const SizedBox(height: 50),
-                      ],
-                    ),
+                          const SizedBox.square(dimension: 32),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      ...matches.map(
+                        (match) => MatchCardHome(match: match),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -200,10 +237,10 @@ class _LastUpdateHomeState extends State<LastUpdateHome>
 
     if (widget.isLoading) {
       return Text(
-        l10n.updatingMatches,
+        l10n.updatingMatches.toUpperCase(),
         style: const TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 10,
+          fontSize: AppVariables.subtitleSize,
         ),
       );
     }
@@ -215,21 +252,29 @@ class _LastUpdateHomeState extends State<LastUpdateHome>
             snapshot.data?.docs
                 .map((doc) => Config.fromJson(doc.data()))
                 .toList() ??
-            [Config(id: matchesCollection, lastUpdate: DateTime.now())];
+            [
+              Config(
+                id: AppVariables.matchesCollection,
+                lastUpdate: DateTime.now(),
+              ),
+            ];
 
         if (configs.isEmpty) {
           configs.add(
-            Config(id: matchesCollection, lastUpdate: DateTime.now()),
+            Config(
+              id: AppVariables.matchesCollection,
+              lastUpdate: DateTime.now(),
+            ),
           );
         }
 
         final delta = DateTime.now().difference(configs.first.lastUpdate);
 
         return Text(
-          l10n.updatedSecondsAgo(delta.inSeconds),
+          l10n.updatedSecondsAgo(delta.inSeconds).toUpperCase(),
           style: const TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 10,
+            fontSize: AppVariables.subtitleSize,
           ),
         );
       },
@@ -253,8 +298,8 @@ class ShimmerMatchCardHome extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    AppSchimmer(height: 40, width: 40),
-                    SizedBox(height: 5),
+                    AppSchimmer(height: 60, width: 60),
+                    SizedBox(height: 3),
                     AppSchimmer(width: 40),
                   ],
                 ),
@@ -264,8 +309,8 @@ class ShimmerMatchCardHome extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    AppSchimmer(height: 40, width: 40),
-                    SizedBox(height: 5),
+                    AppSchimmer(height: 60, width: 60),
+                    SizedBox(height: 3),
                     AppSchimmer(width: 40),
                   ],
                 ),
@@ -299,38 +344,36 @@ class MatchCardHome extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(
-              match.competition.name,
-              style: const TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 5),
             Row(
               children: [
                 Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
+                    spacing: 10,
                     children: [
                       CrestImage(crest: match.homeTeam.crest),
-                      const SizedBox(height: 5),
-                      Text(
-                        match.homeTeam.tla,
+                      ScrollText(
+                        text: match.homeTeam.shortName.toUpperCase(),
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
-                getMatchStatus(match.status, state, match),
+                Expanded(
+                  child: MatchStatusHome(
+                    status: match.status,
+                    state: state,
+                    match: match,
+                  ),
+                ),
                 Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
+                    spacing: 10,
                     children: [
                       CrestImage(crest: match.awayTeam.crest),
-                      const SizedBox(height: 5),
-                      Text(
-                        match.awayTeam.tla,
+                      ScrollText(
+                        text: match.awayTeam.shortName.toUpperCase(),
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -343,70 +386,118 @@ class MatchCardHome extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget getMatchStatus(String status, String state, Match match) {
+class MatchStatusHome extends StatelessWidget {
+  const MatchStatusHome({
+    required this.status,
+    required this.state,
+    required this.match,
+    super.key,
+  });
+
+  final String status;
+  final String state;
+  final Match match;
+
+  @override
+  Widget build(BuildContext context) {
+    final darkMode = context.select<AppCubit, bool>(
+      (cubit) => cubit.state.darkMode,
+    );
+
     if (status == 'SCHEDULED' || status == 'TIMED') {
-      return Expanded(
-        child: Column(
-          children: [
-            Text(
-              state,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+      return Column(
+        spacing: 10,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: darkMode
+                  ? Colors.white.withValues(alpha: 0.8)
+                  : Colors.black.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(5),
             ),
-          ],
-        ),
+            child: CrestImage(
+              crest: match.competition.emblem,
+              dimension: 30,
+            ),
+          ),
+          Text(
+            state,
+            style: AppVariables().appScoreboardFont,
+          ),
+        ],
       );
     } else if (status == 'IN_PLAY' || status == 'PAUSED') {
-      return Expanded(
-        child: Column(
-          children: [
-            Text(
-              '${match.score.fullTime.home} - '
-              '${match.score.fullTime.away}',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+      return Column(
+        spacing: 10,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                match.score.fullTime.home.toString(),
+                style: AppVariables().appScoreboardFont,
               ),
-            ),
-            ScrollText(
-              text: state,
-              style: const TextStyle(
-                fontSize: 9,
-                fontWeight: FontWeight.bold,
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: darkMode
+                      ? Colors.white.withValues(alpha: 0.8)
+                      : Colors.black.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: CrestImage(
+                  crest: match.competition.emblem,
+                  dimension: 30,
+                ),
               ),
-            ),
-            const SizedBox(height: 5),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: ProgressBar(backgroundColor: Colors.grey),
-            ),
-          ],
-        ),
+              Text(
+                match.score.fullTime.away.toString(),
+                style: AppVariables().appScoreboardFont,
+              ),
+            ],
+          ),
+          ScrollText(text: state),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: ProgressBar(),
+          ),
+        ],
       );
     } else {
-      return Expanded(
-        child: Column(
-          children: [
-            Text(
-              '${match.score.fullTime.home} - '
-              '${match.score.fullTime.away}',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+      return Column(
+        spacing: 10,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                match.score.fullTime.home.toString(),
+                style: AppVariables().appScoreboardFont,
               ),
-            ),
-            ScrollText(
-              text: state,
-              style: const TextStyle(
-                fontSize: 9,
-                fontWeight: FontWeight.bold,
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: darkMode
+                      ? Colors.white.withValues(alpha: 0.8)
+                      : Colors.black.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: CrestImage(
+                  crest: match.competition.emblem,
+                  dimension: 30,
+                ),
               ),
-            ),
-          ],
-        ),
+              Text(
+                match.score.fullTime.away.toString(),
+                style: AppVariables().appScoreboardFont,
+              ),
+            ],
+          ),
+          ScrollText(text: state),
+        ],
       );
     }
   }
@@ -417,36 +508,17 @@ class SettingsHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: FilledButton(
-        onPressed: () async {
-          final reload =
-              (await Navigator.of(context).pushNamed(SettingsPage.routeName))
-                  as bool? ??
-              true;
-          if (reload) {
-            context.read<HomeCubit>().reload();
-          }
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              child: ScrollText(
-                text: l10n.titleSettings.toUpperCase(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return IconButton(
+      onPressed: () async {
+        final reload =
+            (await Navigator.of(context).pushNamed(SettingsPage.routeName))
+                as bool? ??
+            true;
+        if (reload) {
+          context.read<HomeCubit>().reload();
+        }
+      },
+      icon: const Icon(FluentIcons.settings, size: 20),
     );
   }
 }

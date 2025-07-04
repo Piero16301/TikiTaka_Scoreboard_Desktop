@@ -23,10 +23,7 @@ class ThemesView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: ScrollText(
                     text: l10n.titleTheme.toUpperCase(),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: titleSize,
-                    ),
+                    style: AppVariables().appTitleFont,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -70,7 +67,7 @@ class CardThemes extends StatelessWidget {
         children: [
           BlocBuilder<AppCubit, AppState>(
             builder: (context, state) => RadioButton(
-              checked: isDark,
+              checked: state.darkMode == isDark,
               onChanged: (checked) {
                 if (checked) {
                   context.read<AppCubit>().changeTheme(darkMode: isDark);

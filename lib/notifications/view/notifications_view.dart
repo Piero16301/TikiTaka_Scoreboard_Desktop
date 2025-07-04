@@ -30,15 +30,12 @@ class NotificationsView extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         child: ScrollText(
                           text: l10n.titleNotifications.toUpperCase(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: titleSize,
-                          ),
+                          style: AppVariables().appTitleFont,
                         ),
                       ),
                       const SizedBox(height: 10),
                       ...List.generate(
-                        numberOfShimmers,
+                        AppVariables.numberOfShimmers,
                         (index) => const ShimmerCardNotifications(),
                       ),
                       const BackButtonNotifications(),
@@ -115,10 +112,7 @@ class NotificationsView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       child: ScrollText(
                         text: l10n.titleNotifications.toUpperCase(),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: titleSize,
-                        ),
+                        style: AppVariables().appTitleFont,
                       ),
                     ),
                     const SizedBox(height: 10),

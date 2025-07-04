@@ -205,7 +205,6 @@ class MainInfoTeam extends StatelessWidget {
           child: CrestImage(
             crest: team.crest,
             fit: BoxFit.cover,
-            dimension: 60,
           ),
         ),
         const SizedBox(height: 5),
@@ -826,11 +825,19 @@ class _LastUpdateTeamState extends State<LastUpdateTeam>
             snapshot.data?.docs
                 .map((doc) => Config.fromJson(doc.data()))
                 .toList() ??
-            [Config(id: teamsCollection, lastUpdate: DateTime.now())];
+            [
+              Config(
+                id: AppVariables.teamsCollection,
+                lastUpdate: DateTime.now(),
+              ),
+            ];
 
         if (configs.isEmpty) {
           configs.add(
-            Config(id: teamsCollection, lastUpdate: DateTime.now()),
+            Config(
+              id: AppVariables.teamsCollection,
+              lastUpdate: DateTime.now(),
+            ),
           );
         }
 

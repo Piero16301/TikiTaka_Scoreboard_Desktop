@@ -61,19 +61,22 @@ class NotificationService {
 
     // Setup Flutter local notifications
     unawaited(
-      FirebaseFirestore.instance.collection(devicesCollection).doc(token).set(
-        {
-          'token': token,
-          'lastOpenAt': FieldValue.serverTimestamp(),
-          'androidInfo': null,
-          'macOsInfo': macOsInfo?.toJson(),
-          'windowsInfo': windowsInfo?.toJson(),
-          'language': localLanguage,
-          'darkMode': darkMode,
-          'enabledTeams': FieldValue.arrayUnion(<String>[]),
-        },
-        SetOptions(merge: true),
-      ),
+      FirebaseFirestore.instance
+          .collection(AppVariables.devicesCollection)
+          .doc(token)
+          .set(
+            {
+              'token': token,
+              'lastOpenAt': FieldValue.serverTimestamp(),
+              'androidInfo': null,
+              'macOsInfo': macOsInfo?.toJson(),
+              'windowsInfo': windowsInfo?.toJson(),
+              'language': localLanguage,
+              'darkMode': darkMode,
+              'enabledTeams': FieldValue.arrayUnion(<String>[]),
+            },
+            SetOptions(merge: true),
+          ),
     );
   }
 
@@ -84,9 +87,9 @@ class NotificationService {
 
     const initializationSettingsMacOS = DarwinInitializationSettings();
     const initializationSettingsWindows = WindowsInitializationSettings(
-      appName: appName,
-      appUserModelId: appUserModelId,
-      guid: appGUID,
+      appName: AppVariables.appName,
+      appUserModelId: AppVariables.appUserModelId,
+      guid: AppVariables.appGUID,
     );
 
     const initializationSettings = InitializationSettings(

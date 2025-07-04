@@ -23,10 +23,7 @@ class LanguagesView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: ScrollText(
                     text: l10n.titleLanguage.toUpperCase(),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: titleSize,
-                    ),
+                    style: AppVariables().appTitleFont,
                   ),
                 ),
                 const SizedBox(height: 10),
