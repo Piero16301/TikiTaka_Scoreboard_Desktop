@@ -1,4 +1,3 @@
-import 'package:dash_flags/dash_flags.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
@@ -12,40 +11,50 @@ class LanguagesView extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return NavigationView(
-      content: SizedBox.expand(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: ScrollText(
-                    text: l10n.titleLanguage.toUpperCase(),
-                    style: AppVariables().appTitleFont,
+      content: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 20,
+          horizontal: 20,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  const BackButtonLanguages(),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          ScrollText(
+                            text: l10n.titleLanguage.toUpperCase(),
+                            style: AppVariables().appTitleFont,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                CardLanguages(
-                  value: 'en_US',
-                  flag: l10n.englishFlag,
-                  language: l10n.englishLanguage,
-                ),
-                CardLanguages(
-                  value: 'es_ES',
-                  flag: l10n.spanishFlag,
-                  language: l10n.spanishLanguage,
-                ),
-                CardLanguages(
-                  value: 'it_IT',
-                  flag: l10n.italianFlag,
-                  language: l10n.italianLanguage,
-                ),
-                const BackButtonLanguages(),
-                const SizedBox(height: 50),
-              ],
-            ),
+                  const SizedBox.square(dimension: 32),
+                ],
+              ),
+              const SizedBox(height: 10),
+              CardLanguages(
+                value: 'en_US',
+                flag: l10n.englishFlag,
+                language: l10n.englishLanguage,
+              ),
+              CardLanguages(
+                value: 'es_ES',
+                flag: l10n.spanishFlag,
+                language: l10n.spanishLanguage,
+              ),
+              CardLanguages(
+                value: 'it_IT',
+                flag: l10n.italianFlag,
+                language: l10n.italianLanguage,
+              ),
+            ],
           ),
         ),
       ),
@@ -67,38 +76,31 @@ class CardLanguages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: SizedBox(
-        height: 50,
-        child: Card(
-          child: Stack(
-            children: [
-              Opacity(
-                opacity: 0.1,
-                child: CountryFlag(
-                  country: Country.fromCode(flag),
-                  height: double.infinity,
-                ),
-              ),
-              Row(
-                children: [
-                  BlocBuilder<AppCubit, AppState>(
-                    builder: (context, state) => RadioButton(
-                      checked: state.language == value,
-                      onChanged: (checked) {
-                        if (checked) {
-                          context.read<AppCubit>().changeLanguage(value);
-                        }
-                      },
-                    ),
-                  ),
-                  Expanded(child: ScrollText(text: language)),
-                ],
-              ),
-            ],
+    return AppCardButton(
+      onPressed: () => context.read<AppCubit>().changeLanguage(value),
+      child: Row(
+        spacing: 10,
+        children: [
+          BlocBuilder<AppCubit, AppState>(
+            builder: (context, state) => RadioButton(
+              checked: state.language == value,
+              onChanged: (checked) {
+                if (checked) {
+                  context.read<AppCubit>().changeLanguage(value);
+                }
+              },
+            ),
           ),
-        ),
+          Expanded(
+            child: ScrollText(
+              text: language.toUpperCase(),
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -109,28 +111,9 @@ class BackButtonLanguages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: FilledButton(
-        onPressed: () => Navigator.of(context).pop(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              child: Text(
-                l10n.backText.toUpperCase(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return IconButton(
+      onPressed: () => Navigator.of(context).pop(),
+      icon: const Icon(FluentIcons.back, size: 20),
     );
   }
 }

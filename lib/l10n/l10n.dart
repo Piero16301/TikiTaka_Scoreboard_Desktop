@@ -427,19 +427,19 @@ abstract class AppLocalizations {
   /// No description provided for @englishLanguage.
   ///
   /// In en, this message translates to:
-  /// **'English'**
+  /// **'🇺🇸 English'**
   String get englishLanguage;
 
   /// No description provided for @spanishLanguage.
   ///
   /// In en, this message translates to:
-  /// **'Spanish'**
+  /// **'🇪🇸 Spanish'**
   String get spanishLanguage;
 
   /// No description provided for @italianLanguage.
   ///
   /// In en, this message translates to:
-  /// **'Italian'**
+  /// **'🇮🇹 Italian'**
   String get italianLanguage;
 
   /// No description provided for @titleTheme.

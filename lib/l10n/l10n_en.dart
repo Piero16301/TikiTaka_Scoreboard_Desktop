@@ -198,13 +198,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get italianFlag => 'it';
 
   @override
-  String get englishLanguage => 'English';
+  String get englishLanguage => '🇺🇸 English';
 
   @override
-  String get spanishLanguage => 'Spanish';
+  String get spanishLanguage => '🇪🇸 Spanish';
 
   @override
-  String get italianLanguage => 'Italian';
+  String get italianLanguage => '🇮🇹 Italian';
 
   @override
   String get titleTheme => 'Theme';

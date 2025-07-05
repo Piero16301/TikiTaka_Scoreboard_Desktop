@@ -18,29 +18,39 @@ class LeaguesView extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return NavigationView(
-            content: SizedBox.expand(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
-                        child: ScrollText(
-                          text: l10n.titleLeagues.toUpperCase(),
-                          style: AppVariables().appTitleFont,
+            content: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 20,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        const BackButtonCompetitions(),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Column(
+                              children: [
+                                ScrollText(
+                                  text: l10n.titleLeagues.toUpperCase(),
+                                  style: AppVariables().appTitleFont,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      ...List.generate(
-                        AppVariables.numberOfShimmers,
-                        (index) => const ShimmerCardLeagues(),
-                      ),
-                      const BackButtonCompetitions(),
-                      const SizedBox(height: 50),
-                    ],
-                  ),
+                        const SizedBox.square(dimension: 32),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    ...List.generate(
+                      AppVariables.numberOfShimmers,
+                      (index) => const ShimmerCardLeagues(),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -49,23 +59,39 @@ class LeaguesView extends StatelessWidget {
 
         if (snapshot.hasError) {
           return NavigationView(
-            content: SizedBox.expand(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            content: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 20,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
                     children: [
-                      Text(
-                        l10n.errorLeagues,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                      const BackButtonCompetitions(),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            children: [
+                              ScrollText(
+                                text: l10n.titleLeagues.toUpperCase(),
+                                style: AppVariables().appTitleFont,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                      const SizedBox.square(dimension: 32),
                     ],
                   ),
-                ),
+                  Expanded(
+                    child: Center(
+                      child: ScrollText(text: l10n.errorLeagues),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -73,23 +99,39 @@ class LeaguesView extends StatelessWidget {
 
         if (snapshot.data!.docs.isEmpty) {
           return NavigationView(
-            content: SizedBox.expand(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            content: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 20,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
                     children: [
-                      Text(
-                        l10n.emptyLeagues,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                      const BackButtonCompetitions(),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            children: [
+                              ScrollText(
+                                text: l10n.titleLeagues.toUpperCase(),
+                                style: AppVariables().appTitleFont,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                      const SizedBox.square(dimension: 32),
                     ],
                   ),
-                ),
+                  Expanded(
+                    child: Center(
+                      child: ScrollText(text: l10n.emptyLeagues),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -100,28 +142,38 @@ class LeaguesView extends StatelessWidget {
             .toList();
 
         return NavigationView(
-          content: SizedBox.expand(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: ScrollText(
-                        text: l10n.titleLeagues.toUpperCase(),
-                        style: AppVariables().appTitleFont,
+          content: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 20,
+              horizontal: 20,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const BackButtonCompetitions(),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            children: [
+                              ScrollText(
+                                text: l10n.titleLeagues.toUpperCase(),
+                                style: AppVariables().appTitleFont,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    ...leagues.map(
-                      (league) => LeagueCardCompetitions(league: league),
-                    ),
-                    const BackButtonCompetitions(),
-                    const SizedBox(height: 50),
-                  ],
-                ),
+                      const SizedBox.square(dimension: 32),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  ...leagues.map(
+                    (league) => LeagueCardCompetitions(league: league),
+                  ),
+                ],
               ),
             ),
           ),
@@ -138,6 +190,7 @@ class ShimmerCardLeagues extends StatelessWidget {
   Widget build(BuildContext context) {
     return const AppCardData(
       child: Row(
+        spacing: 10,
         children: [
           SizedBox(
             width: 40,
@@ -149,9 +202,7 @@ class ShimmerCardLeagues extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 5),
-          AppSchimmer(height: 40, width: 40),
-          SizedBox(width: 5),
+          AppSchimmer(height: 70, width: 70),
           Expanded(child: AppSchimmer()),
         ],
       ),
@@ -169,13 +220,22 @@ class LeagueCardCompetitions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppCardData(
-      child: Row(
-        children: [
-          BlocBuilder<LeaguesCubit, LeaguesState>(
-            builder: (context, state) {
-              final enabled = state.enabledLeagues[league.code] ?? false;
-              return SizedBox(
+    final darkMode = context.select<AppCubit, bool>(
+      (cubit) => cubit.state.darkMode,
+    );
+
+    return BlocBuilder<LeaguesCubit, LeaguesState>(
+      builder: (context, state) {
+        final enabled = state.enabledLeagues[league.code] ?? false;
+        return AppCardButton(
+          onPressed: () => context.read<LeaguesCubit>().toggleLeague(
+            league: league.code,
+            enabled: !enabled,
+          ),
+          child: Row(
+            spacing: 10,
+            children: [
+              SizedBox(
                 width: 40,
                 child: FittedBox(
                   fit: BoxFit.fill,
@@ -189,15 +249,30 @@ class LeagueCardCompetitions extends StatelessWidget {
                     },
                   ),
                 ),
-              );
-            },
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: darkMode
+                      ? Colors.white.withValues(alpha: 0.8)
+                      : Colors.black.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: CrestImage(crest: league.emblem, dimension: 50),
+              ),
+              Expanded(
+                child: ScrollText(
+                  text: league.name.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 5),
-          CrestImage(crest: league.emblem),
-          const SizedBox(width: 5),
-          Expanded(child: ScrollText(text: league.name)),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -207,28 +282,9 @@ class BackButtonCompetitions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: FilledButton(
-        onPressed: () => Navigator.of(context).pop(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              child: Text(
-                l10n.backText.toUpperCase(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return IconButton(
+      onPressed: () => Navigator.of(context).pop(),
+      icon: const Icon(FluentIcons.back, size: 20),
     );
   }
 }

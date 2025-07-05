@@ -16,46 +16,56 @@ class SettingsView extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return NavigationView(
-      content: SizedBox.expand(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: ScrollText(
-                    text: l10n.titleSettings.toUpperCase(),
-                    style: AppVariables().appTitleFont,
+      content: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 20,
+          horizontal: 20,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  const BackButtonSettings(),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          ScrollText(
+                            text: l10n.titleSettings.toUpperCase(),
+                            style: AppVariables().appTitleFont,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                ConfigurationSetting(
-                  title: l10n.titleLeagues.toUpperCase(),
-                  icon: HugeIcons.strokeRoundedFootball,
-                  route: LeaguesPage.routeName,
-                ),
-                ConfigurationSetting(
-                  title: l10n.titleNotifications.toUpperCase(),
-                  icon: HugeIcons.strokeRoundedNotification01,
-                  route: NotificationsPage.routeName,
-                ),
-                ConfigurationSetting(
-                  title: l10n.titleLanguage.toUpperCase(),
-                  icon: HugeIcons.strokeRoundedLanguageSkill,
-                  route: LanguagesPage.routeName,
-                ),
-                ConfigurationSetting(
-                  title: l10n.titleTheme.toUpperCase(),
-                  icon: HugeIcons.strokeRoundedPaintBoard,
-                  route: ThemesPage.routeName,
-                ),
-                const BackButtonSettings(),
-                const AppInfoSettings(),
-                const SizedBox(height: 30),
-              ],
-            ),
+                  const SizedBox.square(dimension: 32),
+                ],
+              ),
+              const SizedBox(height: 10),
+              ConfigurationSetting(
+                title: l10n.titleLeagues.toUpperCase(),
+                icon: HugeIcons.strokeRoundedFootball,
+                route: LeaguesPage.routeName,
+              ),
+              ConfigurationSetting(
+                title: l10n.titleNotifications.toUpperCase(),
+                icon: HugeIcons.strokeRoundedNotification01,
+                route: NotificationsPage.routeName,
+              ),
+              ConfigurationSetting(
+                title: l10n.titleLanguage.toUpperCase(),
+                icon: HugeIcons.strokeRoundedLanguageSkill,
+                route: LanguagesPage.routeName,
+              ),
+              ConfigurationSetting(
+                title: l10n.titleTheme.toUpperCase(),
+                icon: HugeIcons.strokeRoundedPaintBoard,
+                route: ThemesPage.routeName,
+              ),
+              const AppInfoSettings(),
+            ],
           ),
         ),
       ),
@@ -77,21 +87,24 @@ class ConfigurationSetting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppCardData(
+    return AppCardButton(
+      onPressed: () => Navigator.of(context).pushNamed(route),
       child: Row(
+        spacing: 10,
         children: [
-          const SizedBox(width: 10),
           HugeIcon(
             icon: icon,
             size: 30,
             color: FluentTheme.of(context).accentColor,
           ),
-          const SizedBox(width: 5),
-          Expanded(child: ScrollText(text: title)),
-          const SizedBox(width: 5),
-          IconButton(
-            onPressed: () => Navigator.of(context).pushNamed(route),
-            icon: const Icon(FluentIcons.forward),
+          Expanded(
+            child: ScrollText(
+              text: title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),
@@ -104,28 +117,9 @@ class BackButtonSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: FilledButton(
-        onPressed: () => Navigator.of(context).pop(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              child: Text(
-                l10n.backText.toUpperCase(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return IconButton(
+      onPressed: () => Navigator.of(context).pop(),
+      icon: const Icon(FluentIcons.back, size: 20),
     );
   }
 }

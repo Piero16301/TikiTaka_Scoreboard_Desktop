@@ -36,17 +36,23 @@ class HomeView extends StatelessWidget {
                     child: Column(
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const SettingsHome(),
-                            Column(
-                              children: [
-                                ScrollText(
-                                  text: l10n.titleMatches.toUpperCase(),
-                                  style: AppVariables().appTitleFont,
+                            const SettingsButtonHome(),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
                                 ),
-                                const LastUpdateHome(isLoading: true),
-                              ],
+                                child: Column(
+                                  children: [
+                                    ScrollText(
+                                      text: l10n.titleMatches.toUpperCase(),
+                                      style: AppVariables().appTitleFont,
+                                    ),
+                                    const LastUpdateHome(isLoading: true),
+                                  ],
+                                ),
+                              ),
                             ),
                             const SizedBox.square(dimension: 32),
                           ],
@@ -76,15 +82,22 @@ class HomeView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const SettingsHome(),
-                          Column(
-                            children: [
-                              ScrollText(
-                                text: l10n.titleMatches.toUpperCase(),
-                                style: AppVariables().appTitleFont,
+                          const SettingsButtonHome(),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
                               ),
-                              const LastUpdateHome(),
-                            ],
+                              child: Column(
+                                children: [
+                                  ScrollText(
+                                    text: l10n.titleMatches.toUpperCase(),
+                                    style: AppVariables().appTitleFont,
+                                  ),
+                                  const LastUpdateHome(),
+                                ],
+                              ),
+                            ),
                           ),
                           const SizedBox.square(dimension: 32),
                         ],
@@ -113,15 +126,22 @@ class HomeView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const SettingsHome(),
-                          Column(
-                            children: [
-                              ScrollText(
-                                text: l10n.titleMatches.toUpperCase(),
-                                style: AppVariables().appTitleFont,
+                          const SettingsButtonHome(),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
                               ),
-                              const LastUpdateHome(),
-                            ],
+                              child: Column(
+                                children: [
+                                  ScrollText(
+                                    text: l10n.titleMatches.toUpperCase(),
+                                    style: AppVariables().appTitleFont,
+                                  ),
+                                  const LastUpdateHome(),
+                                ],
+                              ),
+                            ),
                           ),
                           const SizedBox.square(dimension: 32),
                         ],
@@ -170,15 +190,22 @@ class HomeView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const SettingsHome(),
-                          Column(
-                            children: [
-                              ScrollText(
-                                text: l10n.titleMatches.toUpperCase(),
-                                style: AppVariables().appTitleFont,
+                          const SettingsButtonHome(),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
                               ),
-                              const LastUpdateHome(),
-                            ],
+                              child: Column(
+                                children: [
+                                  ScrollText(
+                                    text: l10n.titleMatches.toUpperCase(),
+                                    style: AppVariables().appTitleFont,
+                                  ),
+                                  const LastUpdateHome(),
+                                ],
+                              ),
+                            ),
                           ),
                           const SizedBox.square(dimension: 32),
                         ],
@@ -236,12 +263,8 @@ class _LastUpdateHomeState extends State<LastUpdateHome>
     final l10n = AppLocalizations.of(context);
 
     if (widget.isLoading) {
-      return Text(
-        l10n.updatingMatches.toUpperCase(),
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: AppVariables.subtitleSize,
-        ),
+      return ScrollText(
+        text: l10n.updatingMatches.toUpperCase(),
       );
     }
 
@@ -270,12 +293,8 @@ class _LastUpdateHomeState extends State<LastUpdateHome>
 
         final delta = DateTime.now().difference(configs.first.lastUpdate);
 
-        return Text(
-          l10n.updatedSecondsAgo(delta.inSeconds).toUpperCase(),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: AppVariables.subtitleSize,
-          ),
+        return ScrollText(
+          text: l10n.updatedSecondsAgo(delta.inSeconds).toUpperCase(),
         );
       },
     );
@@ -503,8 +522,8 @@ class MatchStatusHome extends StatelessWidget {
   }
 }
 
-class SettingsHome extends StatelessWidget {
-  const SettingsHome({super.key});
+class SettingsButtonHome extends StatelessWidget {
+  const SettingsButtonHome({super.key});
 
   @override
   Widget build(BuildContext context) {
