@@ -253,10 +253,6 @@ class TeamCardTeams extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final darkMode = context.select<AppCubit, bool>(
-      (cubit) => cubit.state.darkMode,
-    );
-
     return BlocBuilder<TeamsCubit, TeamsState>(
       builder: (context, state) {
         final enabled = enabledTeams.contains(team.id.toString());

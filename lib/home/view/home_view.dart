@@ -415,10 +415,6 @@ class MatchStatusHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final darkMode = context.select<AppCubit, bool>(
-      (cubit) => cubit.state.darkMode,
-    );
-
     if (status == 'SCHEDULED' || status == 'TIMED') {
       return Column(
         spacing: 10,

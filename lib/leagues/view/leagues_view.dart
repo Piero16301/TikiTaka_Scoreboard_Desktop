@@ -220,10 +220,6 @@ class LeagueCardCompetitions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final darkMode = context.select<AppCubit, bool>(
-      (cubit) => cubit.state.darkMode,
-    );
-
     return BlocBuilder<LeaguesCubit, LeaguesState>(
       builder: (context, state) {
         final enabled = state.enabledLeagues[league.code] ?? false;

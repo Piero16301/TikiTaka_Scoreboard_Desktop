@@ -213,10 +213,6 @@ class LeagueCardNotifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final darkMode = context.select<AppCubit, bool>(
-      (cubit) => cubit.state.darkMode,
-    );
-
     return AppCardButton(
       onPressed: () => Navigator.of(context).pushNamed(
         TeamsPage.routeName,

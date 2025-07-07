@@ -57,7 +57,6 @@ class MatchView extends StatelessWidget {
                     const ShimmerTeamsCardMatch(),
                     const ShimmerRefereeCardMatch(),
                     const ShimmerCompetitionCardMatch(),
-                    const ShimmerStandingsMatch(),
                   ],
                 ),
               ),
@@ -556,34 +555,28 @@ class ShimmerCompetitionCardMatch extends StatelessWidget {
 
     return AppCardData(
       child: Column(
+        spacing: 10,
         children: [
           Text(
             l10n.competitionMatch.toUpperCase(),
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
+            style: AppVariables().appSettingsFont,
           ),
-          const SizedBox(height: 10),
           const Row(
+            spacing: 10,
             children: [
-              AppSchimmer(height: 30, width: 30),
-              SizedBox(width: 10),
+              AppSchimmer(height: 58, width: 58),
               Expanded(child: AppSchimmer()),
             ],
           ),
-          const SizedBox(height: 10),
           const Row(
+            spacing: 10,
             children: [
-              AppSchimmer(height: 30, width: 30),
-              SizedBox(width: 10),
+              AppSchimmer(height: 58, width: 58),
               Expanded(child: AppSchimmer()),
             ],
           ),
-          const SizedBox(height: 10),
+          const AppSchimmer(width: 200),
           const AppSchimmer(width: 100),
-          const SizedBox(height: 5),
-          const AppSchimmer(width: 50),
         ],
       ),
     );
@@ -666,120 +659,6 @@ class CompetitionCardMatch extends StatelessWidget {
   }
 }
 
-class ShimmerStandingsMatch extends StatelessWidget {
-  const ShimmerStandingsMatch({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    return AppCardData(
-      child: Column(
-        children: [
-          Text(
-            l10n.standingsMatch.toUpperCase(),
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
-          ),
-          const SizedBox(height: 5),
-          Column(
-            spacing: 5,
-            children: [
-              Row(
-                children: [
-                  const Expanded(child: SizedBox.shrink()),
-                  SizedBox(
-                    width: 21,
-                    child: Center(
-                      child: Text(
-                        l10n.playedGamesAbbr,
-                        style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  SizedBox(
-                    width: 21,
-                    child: Center(
-                      child: Text(
-                        l10n.goalDifferenceAbbr,
-                        style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  SizedBox(
-                    width: 21,
-                    child: Center(
-                      child: Text(
-                        l10n.pointsAbbr,
-                        style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              ...List.generate(
-                AppVariables.numberOfShimmers * 4,
-                (index) => Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 2.5,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Row(
-                    spacing: 5,
-                    children: [
-                      SizedBox(
-                        width: 20,
-                        child: Center(
-                          child: Text(
-                            (index + 1).toString(),
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const AppSchimmer(height: 25, width: 25),
-                      const Expanded(child: AppSchimmer()),
-                      const SizedBox(
-                        width: 21,
-                        child: AppSchimmer(width: 21),
-                      ),
-                      const SizedBox(
-                        width: 21,
-                        child: AppSchimmer(width: 21),
-                      ),
-                      const SizedBox(
-                        width: 21,
-                        child: AppSchimmer(width: 21),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class StandingsMatch extends StatelessWidget {
   const StandingsMatch({
     required this.match,
@@ -800,16 +679,76 @@ class StandingsMatch extends StatelessWidget {
         if (!snapshot.hasData) {
           return AppCardData(
             child: Column(
-              spacing: 10,
+              spacing: 20,
               children: [
                 Text(
                   l10n.standingsMatch.toUpperCase(),
                   style: AppVariables().appSettingsFont,
                 ),
-                const Row(
+                Column(
                   children: [
-                    Expanded(
-                      child: ProgressBar(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      spacing: 10,
+                      children: [
+                        PointTextMatch(value: l10n.playedGamesAbbr),
+                        PointTextMatch(value: l10n.winnedGamesAbbr),
+                        PointTextMatch(value: l10n.drawnGamesAbbr),
+                        PointTextMatch(value: l10n.lostGamesAbbr),
+                        PointTextMatch(value: l10n.goalsForAbbr),
+                        PointTextMatch(value: l10n.goalsAgainstAbbr),
+                        PointTextMatch(value: l10n.goalDifferenceAbbr),
+                        PointTextMatch(value: l10n.pointsAbbr),
+                      ],
+                    ),
+                    ...List.generate(
+                      AppVariables.numberOfShimmers * 2,
+                      (index) => Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Row(
+                          spacing: 10,
+                          children: [
+                            PointTextMatch(value: (index + 1).toString()),
+                            const AppSchimmer(height: 42, width: 42),
+                            const Expanded(child: AppSchimmer()),
+                            const SizedBox(
+                              width: 30,
+                              child: AppSchimmer(width: 30),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              child: AppSchimmer(width: 30),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              child: AppSchimmer(width: 30),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              child: AppSchimmer(width: 30),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              child: AppSchimmer(width: 30),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              child: AppSchimmer(width: 30),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              child: AppSchimmer(width: 30),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              child: AppSchimmer(width: 30),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
