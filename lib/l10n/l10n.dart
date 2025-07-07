@@ -220,11 +220,11 @@ abstract class AppLocalizations {
   /// **'FT'**
   String get fullTimeAbbr;
 
-  /// No description provided for @refereeMatch.
+  /// No description provided for @refereesMatch.
   ///
   /// In en, this message translates to:
-  /// **'Referee'**
-  String get refereeMatch;
+  /// **'Referees'**
+  String get refereesMatch;
 
   /// No description provided for @refereeNationalityMatch.
   ///
@@ -261,6 +261,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PL'**
   String get playedGamesAbbr;
+
+  /// No description provided for @winnedGamesAbbr.
+  ///
+  /// In en, this message translates to:
+  /// **'W'**
+  String get winnedGamesAbbr;
+
+  /// No description provided for @drawnGamesAbbr.
+  ///
+  /// In en, this message translates to:
+  /// **'D'**
+  String get drawnGamesAbbr;
+
+  /// No description provided for @lostGamesAbbr.
+  ///
+  /// In en, this message translates to:
+  /// **'L'**
+  String get lostGamesAbbr;
+
+  /// No description provided for @goalsForAbbr.
+  ///
+  /// In en, this message translates to:
+  /// **'GF'**
+  String get goalsForAbbr;
+
+  /// No description provided for @goalsAgainstAbbr.
+  ///
+  /// In en, this message translates to:
+  /// **'GA'**
+  String get goalsAgainstAbbr;
 
   /// No description provided for @goalDifferenceAbbr.
   ///

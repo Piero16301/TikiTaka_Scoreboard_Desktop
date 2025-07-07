@@ -18,6 +18,10 @@ class AppVariables {
     fontWeight: FontWeight.bold,
     fontSize: matchStatusSize,
   );
+  final TextStyle appSettingsFont = GoogleFonts.quicksand().copyWith(
+    fontWeight: FontWeight.bold,
+    fontSize: settingsSize,
+  );
 
   static const int numberOfShimmers = 10;
   static const double scrollMagnitude = 10;
@@ -25,7 +29,10 @@ class AppVariables {
   static const double scrollWidth = 5;
   static const double titleSize = 30;
   static const double subtitleSize = 12;
+  static const double markerTitleSize = 14;
+  static const double settingsSize = 16;
   static const double matchStatusSize = 35;
+  static const double matchSmallStatusSize = 20;
   static const Color defaultColor = Colors.transparent;
   static const colorMap = <String, Color>{
     'Black': Color(0xFF000000),

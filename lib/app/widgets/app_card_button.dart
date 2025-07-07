@@ -17,7 +17,7 @@ class AppCardButton extends StatelessWidget {
       child: Button(
         onPressed: onPressed,
         style: ButtonStyle(
-          padding: WidgetStateProperty.all(const EdgeInsets.all(20)),
+          padding: WidgetStateProperty.all(const EdgeInsets.all(10)),
         ),
         child: child ?? const SizedBox.shrink(),
       ),

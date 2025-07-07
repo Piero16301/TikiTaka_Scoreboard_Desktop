@@ -21,24 +21,22 @@ class TeamView extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return NavigationView(
-            content: SizedBox.expand(
+            content: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      const ShimmerMainInfoTeam(),
-                      const SizedBox(height: 5),
-                      const ShimmerCoachCardTeam(),
-                      ShimmerExpandableCardTeam(title: l10n.competitionsTeam),
-                      ShimmerExpandableCardTeam(title: l10n.squadTeam),
-                      ShimmerExpandableCardTeam(title: l10n.staffTeam),
-                      ShimmerExpandableCardTeam(title: l10n.infoTeam),
-                      const BackButtonTeam(),
-                      const SizedBox(height: 50),
-                    ],
-                  ),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    const ShimmerMainInfoTeam(),
+                    const SizedBox(height: 5),
+                    const ShimmerCoachCardTeam(),
+                    ShimmerExpandableCardTeam(title: l10n.competitionsTeam),
+                    ShimmerExpandableCardTeam(title: l10n.squadTeam),
+                    ShimmerExpandableCardTeam(title: l10n.staffTeam),
+                    ShimmerExpandableCardTeam(title: l10n.infoTeam),
+                    const BackButtonTeam(),
+                    const SizedBox(height: 50),
+                  ],
                 ),
               ),
             ),
@@ -100,46 +98,44 @@ class TeamView extends StatelessWidget {
             .first;
 
         return NavigationView(
-          content: SizedBox.expand(
-            child: RippleBackground(
-              colors: getTeamColors(team.clubColors),
+          content: RippleBackground(
+            colors: getTeamColors(team.clubColors),
+            child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      MainInfoTeam(team: team),
-                      CoachCardTeam(coach: team.coach),
-                      if (team.runningCompetitions.isNotEmpty)
-                        CompetitionsCardTeam(
-                          competitions: team.runningCompetitions,
-                        ),
-                      if (team.squad.isNotEmpty)
-                        SquadCardTeam(
-                          squad: team.squad
-                            ..sort(
-                              (a, b) =>
-                                  getStaffPositionOrder(a.position).compareTo(
-                                    getStaffPositionOrder(b.position),
-                                  ),
-                            ),
-                        ),
-                      if (team.staff.isNotEmpty)
-                        StaffCardTeam(
-                          staff: team.staff
-                            ..sort(
-                              (a, b) =>
-                                  getStaffPositionOrder(a.position).compareTo(
-                                    getStaffPositionOrder(b.position),
-                                  ),
-                            ),
-                        ),
-                      AdditionalInfoTeam(team: team),
-                      const BackButtonTeam(),
-                      const SizedBox(height: 50),
-                    ],
-                  ),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    MainInfoTeam(team: team),
+                    CoachCardTeam(coach: team.coach),
+                    if (team.runningCompetitions.isNotEmpty)
+                      CompetitionsCardTeam(
+                        competitions: team.runningCompetitions,
+                      ),
+                    if (team.squad.isNotEmpty)
+                      SquadCardTeam(
+                        squad: team.squad
+                          ..sort(
+                            (a, b) =>
+                                getStaffPositionOrder(a.position).compareTo(
+                                  getStaffPositionOrder(b.position),
+                                ),
+                          ),
+                      ),
+                    if (team.staff.isNotEmpty)
+                      StaffCardTeam(
+                        staff: team.staff
+                          ..sort(
+                            (a, b) =>
+                                getStaffPositionOrder(a.position).compareTo(
+                                  getStaffPositionOrder(b.position),
+                                ),
+                          ),
+                      ),
+                    AdditionalInfoTeam(team: team),
+                    const BackButtonTeam(),
+                    const SizedBox(height: 50),
+                  ],
                 ),
               ),
             ),

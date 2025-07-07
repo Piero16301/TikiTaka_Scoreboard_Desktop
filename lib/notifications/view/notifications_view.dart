@@ -19,29 +19,39 @@ class NotificationsView extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return NavigationView(
-            content: SizedBox.expand(
+            content: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
-                        child: ScrollText(
-                          text: l10n.titleNotifications.toUpperCase(),
-                          style: AppVariables().appTitleFont,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20,
+                  horizontal: 20,
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        const BackButtonNotifications(),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Column(
+                              children: [
+                                ScrollText(
+                                  text: l10n.titleNotifications.toUpperCase(),
+                                  style: AppVariables().appTitleFont,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      ...List.generate(
-                        AppVariables.numberOfShimmers,
-                        (index) => const ShimmerCardNotifications(),
-                      ),
-                      const BackButtonNotifications(),
-                      const SizedBox(height: 50),
-                    ],
-                  ),
+                        const SizedBox.square(dimension: 32),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    ...List.generate(
+                      AppVariables.numberOfShimmers,
+                      (index) => const ShimmerCardNotifications(),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -50,23 +60,39 @@ class NotificationsView extends StatelessWidget {
 
         if (snapshot.hasError) {
           return NavigationView(
-            content: SizedBox.expand(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            content: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 20,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
                     children: [
-                      Text(
-                        l10n.errorNotifications,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                      const BackButtonNotifications(),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            children: [
+                              ScrollText(
+                                text: l10n.titleNotifications.toUpperCase(),
+                                style: AppVariables().appTitleFont,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                      const SizedBox.square(dimension: 32),
                     ],
                   ),
-                ),
+                  Expanded(
+                    child: Center(
+                      child: ScrollText(text: l10n.errorNotifications),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -74,23 +100,39 @@ class NotificationsView extends StatelessWidget {
 
         if (snapshot.data!.docs.isEmpty) {
           return NavigationView(
-            content: SizedBox.expand(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            content: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 20,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
                     children: [
-                      Text(
-                        l10n.emptyNotifications,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                      const BackButtonNotifications(),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            children: [
+                              ScrollText(
+                                text: l10n.titleNotifications.toUpperCase(),
+                                style: AppVariables().appTitleFont,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                      const SizedBox.square(dimension: 32),
                     ],
                   ),
-                ),
+                  Expanded(
+                    child: Center(
+                      child: ScrollText(text: l10n.emptyNotifications),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -101,28 +143,38 @@ class NotificationsView extends StatelessWidget {
             .toList();
 
         return NavigationView(
-          content: SizedBox.expand(
+          content: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: ScrollText(
-                        text: l10n.titleNotifications.toUpperCase(),
-                        style: AppVariables().appTitleFont,
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 20,
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const BackButtonNotifications(),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            children: [
+                              ScrollText(
+                                text: l10n.titleNotifications.toUpperCase(),
+                                style: AppVariables().appTitleFont,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    ...leagues.map(
-                      (league) => LeagueCardNotifications(league: league),
-                    ),
-                    const BackButtonNotifications(),
-                    const SizedBox(height: 50),
-                  ],
-                ),
+                      const SizedBox.square(dimension: 32),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  ...leagues.map(
+                    (league) => LeagueCardNotifications(league: league),
+                  ),
+                ],
               ),
             ),
           ),
@@ -141,17 +193,10 @@ class ShimmerCardNotifications extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(width: 10),
-          AppSchimmer(height: 40, width: 40),
+          AppSchimmer(height: 52, width: 52),
           SizedBox(width: 10),
           Expanded(child: AppSchimmer()),
           SizedBox(width: 10),
-          SizedBox.square(
-            dimension: 40,
-            child: IconButton(
-              onPressed: null,
-              icon: Icon(FluentIcons.forward),
-            ),
-          ),
         ],
       ),
     );
@@ -168,21 +213,26 @@ class LeagueCardNotifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppCardData(
+    final darkMode = context.select<AppCubit, bool>(
+      (cubit) => cubit.state.darkMode,
+    );
+
+    return AppCardButton(
+      onPressed: () => Navigator.of(context).pushNamed(
+        TeamsPage.routeName,
+        arguments: league.id,
+      ),
       child: Row(
+        spacing: 10,
         children: [
-          CrestImage(crest: league.emblem),
-          const SizedBox(width: 5),
-          Expanded(child: ScrollText(text: league.name)),
-          const SizedBox(width: 5),
-          SizedBox.square(
-            dimension: 40,
-            child: IconButton(
-              onPressed: () => Navigator.of(context).pushNamed(
-                TeamsPage.routeName,
-                arguments: league.id,
-              ),
-              icon: const Icon(FluentIcons.forward),
+          CrestImageBackground(
+            crest: league.emblem,
+            dimension: 50,
+          ),
+          Expanded(
+            child: ScrollText(
+              text: league.name.toUpperCase(),
+              style: AppVariables().appSettingsFont,
             ),
           ),
         ],
@@ -196,28 +246,9 @@ class BackButtonNotifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: FilledButton(
-        onPressed: () => Navigator.of(context).pop(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              child: Text(
-                l10n.backText.toUpperCase(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return IconButton(
+      onPressed: () => Navigator.of(context).pop(),
+      icon: const Icon(FluentIcons.back, size: 20),
     );
   }
 }

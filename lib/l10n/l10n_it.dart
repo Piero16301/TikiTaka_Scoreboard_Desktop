@@ -78,7 +78,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get fullTimeAbbr => 'FT';
 
   @override
-  String get refereeMatch => 'Arbitro';
+  String get refereesMatch => 'Arbitri';
 
   @override
   String get refereeNationalityMatch => 'Nazionalità';
@@ -97,6 +97,21 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get playedGamesAbbr => 'PG';
+
+  @override
+  String get winnedGamesAbbr => 'V';
+
+  @override
+  String get drawnGamesAbbr => 'P';
+
+  @override
+  String get lostGamesAbbr => 'S';
+
+  @override
+  String get goalsForAbbr => 'GF';
+
+  @override
+  String get goalsAgainstAbbr => 'GS';
 
   @override
   String get goalDifferenceAbbr => 'DG';

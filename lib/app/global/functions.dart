@@ -1,15 +1,8 @@
-import 'dart:developer';
-
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/global/global.dart';
 import 'package:tiki_taka_scoreboard_desktop/l10n/l10n.dart';
-import 'package:vector_graphics/vector_graphics.dart';
-import 'package:vector_graphics_compiler/vector_graphics_compiler.dart'
-    hide Color;
 
 String getMatchState(String status, DateTime date, AppLocalizations l10n) {
   switch (status) {
@@ -249,40 +242,5 @@ IconData getStaffPositionIcon(String position) {
       return HugeIcons.strokeRoundedUser;
     default:
       return HugeIcons.strokeRoundedQuestion;
-  }
-}
-
-class NetworkSvgLoader extends BytesLoader {
-  const NetworkSvgLoader(this.url);
-
-  final String url;
-
-  @override
-  Future<ByteData> loadBytes(BuildContext? context) async {
-    return compute(
-      (String svgUrl) async {
-        final request = await http.get(Uri.parse(svgUrl));
-        final task = TimelineTask()..start('encodeSvg');
-        final compiledBytes = encodeSvg(
-          xml: request.body,
-          debugName: svgUrl,
-          enableClippingOptimizer: false,
-          enableMaskingOptimizer: false,
-          enableOverdrawOptimizer: false,
-        );
-        task.finish();
-        return compiledBytes.buffer.asByteData();
-      },
-      url,
-      debugLabel: 'Load Bytes',
-    );
-  }
-
-  @override
-  int get hashCode => url.hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other is NetworkSvgLoader && other.url == url;
   }
 }

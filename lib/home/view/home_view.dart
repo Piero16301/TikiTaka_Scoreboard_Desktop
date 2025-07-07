@@ -27,12 +27,12 @@ class HomeView extends StatelessWidget {
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return NavigationView(
-                content: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 20,
-                  ),
-                  child: SingleChildScrollView(
+                content: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 20,
+                    ),
                     child: Column(
                       children: [
                         Row(
@@ -179,12 +179,12 @@ class HomeView extends StatelessWidget {
                   });
 
             return NavigationView(
-              content: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: 20,
-                ),
-                child: SingleChildScrollView(
+              content: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 20,
+                  ),
                   child: Column(
                     children: [
                       Row(
@@ -264,7 +264,7 @@ class _LastUpdateHomeState extends State<LastUpdateHome>
 
     if (widget.isLoading) {
       return ScrollText(
-        text: l10n.updatingMatches.toUpperCase(),
+        text: l10n.updatingMatches,
       );
     }
 
@@ -294,7 +294,7 @@ class _LastUpdateHomeState extends State<LastUpdateHome>
         final delta = DateTime.now().difference(configs.first.lastUpdate);
 
         return ScrollText(
-          text: l10n.updatedSecondsAgo(delta.inSeconds).toUpperCase(),
+          text: l10n.updatedSecondsAgo(delta.inSeconds),
         );
       },
     );
@@ -317,7 +317,7 @@ class ShimmerMatchCardHome extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    AppSchimmer(height: 60, width: 60),
+                    AppSchimmer(height: 52, width: 52),
                     SizedBox(height: 3),
                     AppSchimmer(width: 40),
                   ],
@@ -328,7 +328,7 @@ class ShimmerMatchCardHome extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    AppSchimmer(height: 60, width: 60),
+                    AppSchimmer(height: 52, width: 52),
                     SizedBox(height: 3),
                     AppSchimmer(width: 40),
                   ],
@@ -355,53 +355,47 @@ class MatchCardHome extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final state = getMatchState(match.status, match.utcDate!, l10n);
 
-    return AppCardData(
-      child: GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed(
-          MatchPage.routeName,
-          arguments: match.id,
-        ),
-        child: Column(
-          children: [
-            Row(
+    return AppCardButton(
+      onPressed: () => Navigator.of(context).pushNamed(
+        MatchPage.routeName,
+        arguments: match.id,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 10,
               children: [
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    spacing: 10,
-                    children: [
-                      CrestImage(crest: match.homeTeam.crest),
-                      ScrollText(
-                        text: match.homeTeam.shortName.toUpperCase(),
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: MatchStatusHome(
-                    status: match.status,
-                    state: state,
-                    match: match,
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    spacing: 10,
-                    children: [
-                      CrestImage(crest: match.awayTeam.crest),
-                      ScrollText(
-                        text: match.awayTeam.shortName.toUpperCase(),
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+                CrestImage(crest: match.homeTeam.crest),
+                ScrollText(
+                  text: match.homeTeam.shortName.toUpperCase(),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+          Expanded(
+            child: MatchStatusHome(
+              status: match.status,
+              state: state,
+              match: match,
+            ),
+          ),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 10,
+              children: [
+                CrestImage(crest: match.awayTeam.crest),
+                ScrollText(
+                  text: match.awayTeam.shortName.toUpperCase(),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -429,18 +423,9 @@ class MatchStatusHome extends StatelessWidget {
       return Column(
         spacing: 10,
         children: [
-          Container(
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: darkMode
-                  ? Colors.white.withValues(alpha: 0.8)
-                  : Colors.black.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: CrestImage(
-              crest: match.competition.emblem,
-              dimension: 30,
-            ),
+          CrestImageBackground(
+            crest: match.competition.emblem,
+            dimension: 30,
           ),
           Text(
             state,
@@ -459,18 +444,9 @@ class MatchStatusHome extends StatelessWidget {
                 match.score.fullTime.home.toString(),
                 style: AppVariables().appScoreboardFont,
               ),
-              Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: darkMode
-                      ? Colors.white.withValues(alpha: 0.8)
-                      : Colors.black.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: CrestImage(
-                  crest: match.competition.emblem,
-                  dimension: 30,
-                ),
+              CrestImageBackground(
+                crest: match.competition.emblem,
+                dimension: 30,
               ),
               Text(
                 match.score.fullTime.away.toString(),
@@ -496,18 +472,9 @@ class MatchStatusHome extends StatelessWidget {
                 match.score.fullTime.home.toString(),
                 style: AppVariables().appScoreboardFont,
               ),
-              Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: darkMode
-                      ? Colors.white.withValues(alpha: 0.8)
-                      : Colors.black.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: CrestImage(
-                  crest: match.competition.emblem,
-                  dimension: 30,
-                ),
+              CrestImageBackground(
+                crest: match.competition.emblem,
+                dimension: 30,
               ),
               Text(
                 match.score.fullTime.away.toString(),

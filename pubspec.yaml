@@ -19,8 +19,8 @@ dependencies:
   flutter_local_notifications: ^19.3.0
   flutter_localizations:
     sdk: flutter
+  flutter_svg: ^2.2.0
   google_fonts: ^6.2.1
-  http: ^1.4.0
   hugeicons: ^0.0.11
   intl: ^0.20.2
   package_info_plus: ^8.3.0
@@ -33,8 +33,6 @@ dependencies:
     path: packages/user_api_remote
   user_repository:
     path: packages/user_repository
-  vector_graphics: ^1.1.19
-  vector_graphics_compiler: ^1.1.17
 
 dev_dependencies:
   bloc_test: ^10.0.0

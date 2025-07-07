@@ -16,12 +16,12 @@ class SettingsView extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return NavigationView(
-      content: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 20,
-        ),
-        child: SingleChildScrollView(
+      content: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 20,
+            horizontal: 20,
+          ),
           child: Column(
             children: [
               Row(
@@ -100,10 +100,7 @@ class ConfigurationSetting extends StatelessWidget {
           Expanded(
             child: ScrollText(
               text: title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: AppVariables().appSettingsFont,
             ),
           ),
         ],

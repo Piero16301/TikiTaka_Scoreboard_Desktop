@@ -18,12 +18,12 @@ class LeaguesView extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return NavigationView(
-            content: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 20,
-                horizontal: 20,
-              ),
-              child: SingleChildScrollView(
+            content: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20,
+                  horizontal: 20,
+                ),
                 child: Column(
                   children: [
                     Row(
@@ -142,12 +142,12 @@ class LeaguesView extends StatelessWidget {
             .toList();
 
         return NavigationView(
-          content: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 20,
-              horizontal: 20,
-            ),
-            child: SingleChildScrollView(
+          content: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 20,
+              ),
               child: Column(
                 children: [
                   Row(
@@ -202,7 +202,7 @@ class ShimmerCardLeagues extends StatelessWidget {
               ),
             ),
           ),
-          AppSchimmer(height: 70, width: 70),
+          AppSchimmer(height: 52, width: 52),
           Expanded(child: AppSchimmer()),
         ],
       ),
@@ -250,23 +250,14 @@ class LeagueCardCompetitions extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: darkMode
-                      ? Colors.white.withValues(alpha: 0.8)
-                      : Colors.black.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: CrestImage(crest: league.emblem, dimension: 50),
+              CrestImageBackground(
+                crest: league.emblem,
+                dimension: 50,
               ),
               Expanded(
                 child: ScrollText(
                   text: league.name.toUpperCase(),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: AppVariables().appSettingsFont,
                 ),
               ),
             ],
