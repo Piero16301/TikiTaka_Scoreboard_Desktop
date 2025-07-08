@@ -84,7 +84,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get refereeNationalityMatch => 'Nacionalidad';
 
   @override
-  String get competitionMatch => 'Competición';
+  String get competitionsMatch => 'Competiciones';
 
   @override
   String get seasonMatch => 'Temporada';
@@ -177,7 +177,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get stadiumTeam => 'Estadio';
 
   @override
-  String get foundedTeam => 'Fundado';
+  String get foundationTeam => 'Fundación';
 
   @override
   String get addressTeam => 'Dirección';

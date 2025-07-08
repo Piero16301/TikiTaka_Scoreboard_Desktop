@@ -232,11 +232,11 @@ abstract class AppLocalizations {
   /// **'Nationality'**
   String get refereeNationalityMatch;
 
-  /// No description provided for @competitionMatch.
+  /// No description provided for @competitionsMatch.
   ///
   /// In en, this message translates to:
-  /// **'Competition'**
-  String get competitionMatch;
+  /// **'Competitions'**
+  String get competitionsMatch;
 
   /// No description provided for @seasonMatch.
   ///
@@ -382,11 +382,11 @@ abstract class AppLocalizations {
   /// **'Stadium'**
   String get stadiumTeam;
 
-  /// No description provided for @foundedTeam.
+  /// No description provided for @foundationTeam.
   ///
   /// In en, this message translates to:
-  /// **'Founded'**
-  String get foundedTeam;
+  /// **'Foundation'**
+  String get foundationTeam;
 
   /// No description provided for @addressTeam.
   ///

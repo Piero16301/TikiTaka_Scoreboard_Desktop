@@ -558,7 +558,7 @@ class ShimmerCompetitionCardMatch extends StatelessWidget {
         spacing: 10,
         children: [
           Text(
-            l10n.competitionMatch.toUpperCase(),
+            l10n.competitionsMatch.toUpperCase(),
             style: AppVariables().appSettingsFont,
           ),
           const Row(
@@ -600,7 +600,7 @@ class CompetitionCardMatch extends StatelessWidget {
         spacing: 10,
         children: [
           Text(
-            l10n.competitionMatch.toUpperCase(),
+            l10n.competitionsMatch.toUpperCase(),
             style: AppVariables().appSettingsFont,
           ),
           Row(

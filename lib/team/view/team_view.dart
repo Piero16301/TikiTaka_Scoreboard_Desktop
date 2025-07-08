@@ -20,22 +20,19 @@ class TeamView extends StatelessWidget {
       stream: context.read<TeamCubit>().getTeam(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return NavigationView(
+          return const NavigationView(
             content: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(
+                  vertical: 20,
+                  horizontal: 20,
+                ),
                 child: Column(
                   children: [
-                    const SizedBox(height: 10),
-                    const ShimmerMainInfoTeam(),
-                    const SizedBox(height: 5),
-                    const ShimmerCoachCardTeam(),
-                    ShimmerExpandableCardTeam(title: l10n.competitionsTeam),
-                    ShimmerExpandableCardTeam(title: l10n.squadTeam),
-                    ShimmerExpandableCardTeam(title: l10n.staffTeam),
-                    ShimmerExpandableCardTeam(title: l10n.infoTeam),
-                    const BackButtonTeam(),
-                    const SizedBox(height: 50),
+                    ShimmerMainInfoTeam(),
+                    ShimmerCoachCardTeam(),
+                    ShimmerCompetitionsCardTeam(),
+                    ShimmerAdditionalInfoTeam(),
                   ],
                 ),
               ),
@@ -45,23 +42,25 @@ class TeamView extends StatelessWidget {
 
         if (snapshot.hasError) {
           return NavigationView(
-            content: SizedBox.expand(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            content: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 20,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Row(
                     children: [
-                      Text(
-                        l10n.errorTeam,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                      ),
+                      BackButtonTeam(),
                     ],
                   ),
-                ),
+                  Expanded(
+                    child: Center(
+                      child: ScrollText(text: l10n.errorTeam),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -69,24 +68,25 @@ class TeamView extends StatelessWidget {
 
         if (snapshot.data!.docs.isEmpty) {
           return NavigationView(
-            content: SizedBox.expand(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            content: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 20,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Row(
                     children: [
-                      Text(
-                        l10n.notFoundTeam,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                      ),
-                      const BackButtonTeam(),
+                      BackButtonTeam(),
                     ],
                   ),
-                ),
+                  Expanded(
+                    child: Center(
+                      child: ScrollText(text: l10n.notFoundTeam),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -102,16 +102,19 @@ class TeamView extends StatelessWidget {
             colors: getTeamColors(team.clubColors),
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20,
+                  horizontal: 20,
+                ),
                 child: Column(
                   children: [
-                    const SizedBox(height: 10),
                     MainInfoTeam(team: team),
                     CoachCardTeam(coach: team.coach),
                     if (team.runningCompetitions.isNotEmpty)
                       CompetitionsCardTeam(
                         competitions: team.runningCompetitions,
                       ),
+                    AdditionalInfoTeam(team: team),
                     if (team.squad.isNotEmpty)
                       SquadCardTeam(
                         squad: team.squad
@@ -132,9 +135,6 @@ class TeamView extends StatelessWidget {
                                 ),
                           ),
                       ),
-                    AdditionalInfoTeam(team: team),
-                    const BackButtonTeam(),
-                    const SizedBox(height: 50),
                   ],
                 ),
               ),
@@ -151,25 +151,36 @@ class ShimmerMainInfoTeam extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
+      spacing: 20,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withValues(alpha: 0.6),
-                blurRadius: 12,
-                spreadRadius: 3,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            BackButtonTeam(),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: Column(
+                  children: [
+                    AppSchimmer(height: 100, width: 100),
+                  ],
+                ),
               ),
-            ],
-          ),
-          child: const AppSchimmer(height: 60, width: 60),
+            ),
+            SizedBox.square(dimension: 32),
+          ],
         ),
-        const SizedBox(height: 7.5),
-        const AppSchimmer(height: 20, width: 100),
-        const SizedBox(height: 7.5),
-        const AppSchimmer(width: 50),
+        Column(
+          spacing: 10,
+          children: [
+            AppSchimmer(height: 20, width: 100),
+            AppSchimmer(height: 15, width: 50),
+          ],
+        ),
       ],
     );
   }
@@ -186,37 +197,52 @@ class MainInfoTeam extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      spacing: 20,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withValues(alpha: 0.6),
-                blurRadius: 12,
-                spreadRadius: 3,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const BackButtonTeam(),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withValues(alpha: 0.6),
+                            blurRadius: 12,
+                            spreadRadius: 3,
+                          ),
+                        ],
+                      ),
+                      child: CrestImage(crest: team.crest, dimension: 100),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-          child: CrestImage(
-            crest: team.crest,
-            fit: BoxFit.cover,
-          ),
+            ),
+            const SizedBox.square(dimension: 32),
+          ],
         ),
-        const SizedBox(height: 5),
-        ScrollText(
-          text: team.name,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-        ),
-        ScrollText(
-          text: '${team.shortName} (${team.tla})',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 10,
-          ),
+        Column(
+          spacing: 5,
+          children: [
+            ScrollText(
+              text: team.name.toUpperCase(),
+              style: AppVariables().appSettingsFont,
+            ),
+            ScrollText(
+              text: '${team.shortName} (${team.tla})',
+              style: AppVariables().appSettingsFont,
+            ),
+          ],
         ),
       ],
     );
@@ -228,36 +254,46 @@ class ShimmerCoachCardTeam extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return AppCardData(
       child: Column(
+        spacing: 10,
         children: [
-          const AppSchimmer(width: 100),
-          const SizedBox(height: 5),
+          Text(
+            l10n.coachTeam.toUpperCase(),
+            style: AppVariables().appSettingsFont,
+          ),
           Row(
+            spacing: 10,
             children: [
               HugeIcon(
                 icon: HugeIcons.strokeRoundedMentoring,
                 color: FluentTheme.of(context).accentColor,
-                size: 20,
+                size: 30,
               ),
-              const SizedBox(width: 10),
               const Expanded(
                 child: Column(
+                  spacing: 14,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 5,
                   children: [
+                    AppSchimmer(width: 100),
                     AppSchimmer(width: 80),
-                    AppSchimmer(width: 70),
                     AppSchimmer(width: 60),
                   ],
                 ),
               ),
-              const SizedBox(width: 10),
-              const Column(
-                spacing: 5,
+              Column(
+                spacing: 10,
                 children: [
-                  AppSchimmer(width: 30),
-                  AppSchimmer(width: 30),
+                  Text(
+                    l10n.untilTeam,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const AppSchimmer(width: 50),
                 ],
               ),
             ],
@@ -282,66 +318,63 @@ class CoachCardTeam extends StatelessWidget {
 
     return AppCardData(
       child: Column(
+        spacing: 10,
         children: [
           Text(
             l10n.coachTeam.toUpperCase(),
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
+            style: AppVariables().appSettingsFont,
           ),
-          const SizedBox(height: 5),
           Row(
+            spacing: 10,
             children: [
               HugeIcon(
                 icon: HugeIcons.strokeRoundedMentoring,
                 color: FluentTheme.of(context).accentColor,
-                size: 20,
+                size: 30,
               ),
-              const SizedBox(width: 10),
               Expanded(
                 child: Column(
+                  spacing: 5,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ScrollText(
                       text: coach.name,
                       style: const TextStyle(
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        fontSize: 11,
                       ),
                     ),
                     Text(
                       coach.nationality,
                       style: const TextStyle(
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       l10n.ageTeam(getAge(coach.dateOfBirth)),
                       style: const TextStyle(
-                        fontSize: 9,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(width: 10),
               Column(
                 children: [
                   Text(
                     l10n.untilTeam,
                     style: const TextStyle(
+                      fontSize: 12,
                       fontWeight: FontWeight.bold,
-                      fontSize: 9,
                     ),
                   ),
                   Text(
                     getUntilContract(coach.contract.until),
                     style: const TextStyle(
+                      fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      fontSize: 11,
                     ),
                   ),
                 ],
@@ -372,26 +405,36 @@ class CoachCardTeam extends StatelessWidget {
   }
 }
 
-class ShimmerExpandableCardTeam extends StatelessWidget {
-  const ShimmerExpandableCardTeam({
-    required this.title,
-    super.key,
-  });
-
-  final String title;
+class ShimmerCompetitionsCardTeam extends StatelessWidget {
+  const ShimmerCompetitionsCardTeam({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return AppCardData(
-      child: Expander(
-        header: Text(
-          title.toUpperCase(),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 12,
+      child: Column(
+        children: [
+          Text(
+            l10n.competitionsTeam.toUpperCase(),
+            style: AppVariables().appSettingsFont,
           ),
-        ),
-        content: const SizedBox.shrink(),
+          const Row(
+            spacing: 10,
+            children: [
+              AppSchimmer(height: 50, width: 50),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppSchimmer(width: 100),
+                    AppSchimmer(width: 80),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -410,52 +453,206 @@ class CompetitionsCardTeam extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return AppCardData(
-      child: Expander(
-        header: Text(
-          l10n.competitionsTeam.toUpperCase(),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 12,
+      child: Column(
+        children: [
+          Text(
+            l10n.competitionsTeam.toUpperCase(),
+            style: AppVariables().appSettingsFont,
           ),
-        ),
-        content: Column(
-          children: competitions
-              .map(
-                (competition) => Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Row(
+          ...competitions.map(
+            (competition) => Row(
+              spacing: 10,
+              children: [
+                CrestImageBackground(
+                  crest: competition.emblem,
+                  dimension: 40,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CrestImage(
-                        crest: competition.emblem,
-                        fit: BoxFit.cover,
-                        dimension: 30,
+                      ScrollText(
+                        text: competition.name.toUpperCase(),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ScrollText(text: competition.name),
-                            Text(
-                              getCompetitionType(
-                                competition.type,
-                                l10n,
-                              ).toUpperCase(),
-                              style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                      Text(
+                        getCompetitionType(
+                          competition.type,
+                          l10n,
+                        ).toUpperCase(),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
                 ),
-              )
-              .toList(),
-        ),
+              ],
+            ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class ShimmerAdditionalInfoTeam extends StatelessWidget {
+  const ShimmerAdditionalInfoTeam({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return AppCardData(
+      child: Column(
+        spacing: 10,
+        children: [
+          Text(
+            l10n.infoTeam.toUpperCase(),
+            style: AppVariables().appSettingsFont,
+          ),
+          buildInfoRow(
+            icon: HugeIcons.strokeRoundedColosseum,
+            title: l10n.stadiumTeam,
+            context: context,
+          ),
+          buildInfoRow(
+            icon: HugeIcons.strokeRoundedClock02,
+            title: l10n.foundationTeam,
+            context: context,
+          ),
+          buildInfoRow(
+            icon: HugeIcons.strokeRoundedLocation01,
+            title: l10n.addressTeam,
+            context: context,
+          ),
+          buildInfoRow(
+            icon: HugeIcons.strokeRoundedInternet,
+            title: l10n.websiteTeam,
+            context: context,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildInfoRow({
+    required IconData icon,
+    required String title,
+    required BuildContext context,
+  }) {
+    return Row(
+      spacing: 10,
+      children: [
+        HugeIcon(
+          icon: icon,
+          color: FluentTheme.of(context).accentColor,
+          size: 30,
+        ),
+        Expanded(
+          child: Column(
+            spacing: 5,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ScrollText(
+                text: title,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const AppSchimmer(width: 200),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class AdditionalInfoTeam extends StatelessWidget {
+  const AdditionalInfoTeam({
+    required this.team,
+    super.key,
+  });
+
+  final Team team;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return AppCardData(
+      child: Column(
+        spacing: 10,
+        children: [
+          Text(
+            l10n.infoTeam.toUpperCase(),
+            style: AppVariables().appSettingsFont,
+          ),
+          buildInfoRow(
+            icon: HugeIcons.strokeRoundedColosseum,
+            title: l10n.stadiumTeam,
+            value: team.venue,
+            context: context,
+          ),
+          buildInfoRow(
+            icon: HugeIcons.strokeRoundedClock02,
+            title: l10n.foundationTeam,
+            value: team.founded.toString(),
+            context: context,
+          ),
+          buildInfoRow(
+            icon: HugeIcons.strokeRoundedLocation01,
+            title: l10n.addressTeam,
+            value: team.address,
+            context: context,
+          ),
+          buildInfoRow(
+            icon: HugeIcons.strokeRoundedInternet,
+            title: l10n.websiteTeam,
+            value: team.website,
+            context: context,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildInfoRow({
+    required IconData icon,
+    required String title,
+    required String value,
+    required BuildContext context,
+  }) {
+    return Row(
+      spacing: 10,
+      children: [
+        HugeIcon(
+          icon: icon,
+          color: FluentTheme.of(context).accentColor,
+          size: 30,
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ScrollText(
+                text: title,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              ScrollText(text: value),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -474,76 +671,73 @@ class SquadCardTeam extends StatelessWidget {
 
     return AppCardData(
       child: Expander(
+        initiallyExpanded: true,
         header: Text(
           l10n.squadTeam.toUpperCase(),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 12,
-          ),
+          style: AppVariables().appSettingsFont,
         ),
         content: Column(
+          spacing: 10,
           children: squad
               .map(
-                (player) => Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Row(
-                    children: [
-                      HugeIcon(
-                        icon: getStaffPositionIcon(player.position),
-                        color: FluentTheme.of(context).accentColor,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ScrollText(
-                              text: player.name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 11,
-                              ),
+                (player) => Row(
+                  spacing: 10,
+                  children: [
+                    HugeIcon(
+                      icon: getStaffPositionIcon(player.position),
+                      color: FluentTheme.of(context).accentColor,
+                      size: 30,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ScrollText(
+                            text: player.name,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
                             ),
-                            Text(
-                              player.nationality,
-                              style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              l10n.ageTeam(getAge(player.dateOfBirth)),
-                              style: const TextStyle(
-                                fontSize: 9,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Container(
-                        width: 30,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 3,
-                        ),
-                        decoration: BoxDecoration(
-                          color: getStaffPositionColor(player.position),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          getStaffPosition(player.position, l10n),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 10,
                           ),
+                          Text(
+                            player.nationality,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            l10n.ageTeam(getAge(player.dateOfBirth)),
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 40,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: getStaffPositionColor(
+                          player.position,
+                        ).withValues(alpha: 0.7),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        getStaffPosition(player.position, l10n),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               )
               .toList(),
@@ -672,212 +866,14 @@ class StaffCardTeam extends StatelessWidget {
   }
 }
 
-class AdditionalInfoTeam extends StatelessWidget {
-  const AdditionalInfoTeam({
-    required this.team,
-    super.key,
-  });
-
-  final Team team;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    return AppCardData(
-      child: Expander(
-        header: Text(
-          l10n.infoTeam.toUpperCase(),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 12,
-          ),
-        ),
-        content: Column(
-          children: [
-            buildInfoRow(
-              icon: HugeIcons.strokeRoundedColosseum,
-              title: l10n.stadiumTeam,
-              value: team.venue,
-              context: context,
-            ),
-            buildInfoRow(
-              icon: HugeIcons.strokeRoundedClock02,
-              title: l10n.foundedTeam,
-              value: team.founded.toString(),
-              context: context,
-            ),
-            buildInfoRow(
-              icon: HugeIcons.strokeRoundedLocation01,
-              title: l10n.addressTeam,
-              value: team.address,
-              context: context,
-            ),
-            buildInfoRow(
-              icon: HugeIcons.strokeRoundedInternet,
-              title: l10n.websiteTeam,
-              value: team.website,
-              context: context,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildInfoRow({
-    required IconData icon,
-    required String title,
-    required String value,
-    required BuildContext context,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Row(
-        spacing: 10,
-        children: [
-          HugeIcon(
-            icon: icon,
-            color: FluentTheme.of(context).accentColor,
-            size: 20,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ScrollText(
-                  text: title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 11,
-                  ),
-                ),
-                ScrollText(
-                  text: value,
-                  style: const TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class LastUpdateTeam extends StatefulWidget {
-  const LastUpdateTeam({
-    this.isLoading = false,
-    super.key,
-  });
-
-  final bool isLoading;
-
-  @override
-  State<LastUpdateTeam> createState() => _LastUpdateTeamState();
-}
-
-class _LastUpdateTeamState extends State<LastUpdateTeam>
-    with WidgetsBindingObserver {
-  late StreamSubscription<void> _nowSubscription;
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addObserver(this);
-    _nowSubscription = Stream<void>.periodic(
-      const Duration(seconds: 1),
-    ).listen((_) => setState(() {}));
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    _nowSubscription.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    if (widget.isLoading) {
-      return Text(
-        l10n.updatingMatches,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 10,
-        ),
-      );
-    }
-
-    return StreamBuilder(
-      stream: context.read<TeamCubit>().getTeamConfigs(),
-      builder: (context, snapshot) {
-        final configs =
-            snapshot.data?.docs
-                .map((doc) => Config.fromJson(doc.data()))
-                .toList() ??
-            [
-              Config(
-                id: AppVariables.teamsCollection,
-                lastUpdate: DateTime.now(),
-              ),
-            ];
-
-        if (configs.isEmpty) {
-          configs.add(
-            Config(
-              id: AppVariables.teamsCollection,
-              lastUpdate: DateTime.now(),
-            ),
-          );
-        }
-
-        final delta = DateTime.now().difference(configs.first.lastUpdate);
-
-        return Text(
-          l10n.updatedDaysAgo(delta.inDays),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 10,
-          ),
-        );
-      },
-    );
-  }
-}
-
 class BackButtonTeam extends StatelessWidget {
   const BackButtonTeam({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: FilledButton(
-        onPressed: () => Navigator.of(context).pop(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              child: Text(
-                l10n.backText.toUpperCase(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return IconButton(
+      onPressed: () => Navigator.of(context).pop(),
+      icon: const Icon(FluentIcons.back, size: 20),
     );
   }
 }
