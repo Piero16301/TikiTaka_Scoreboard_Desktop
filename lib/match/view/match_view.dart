@@ -233,7 +233,7 @@ class _LastUpdateMatchState extends State<LastUpdateMatch>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _nowSubscription.cancel();
+    unawaited(_nowSubscription.cancel());
     super.dispose();
   }
 

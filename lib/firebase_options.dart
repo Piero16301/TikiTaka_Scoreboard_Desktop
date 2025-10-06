@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,22 +46,32 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyA7zVg5DpF0b0HVbbmrErouDZMqcJyf_JI',
-    appId: '1:502557711691:ios:60c27cec7e1f0a73185cce',
-    messagingSenderId: '502557711691',
-    projectId: 'tiki-taka-scoreboard',
-    storageBucket: 'tiki-taka-scoreboard.firebasestorage.app',
-    iosBundleId: 'com.example.myApp',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
+  static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCxLFXaQy1kgueDu41wPuM-hlUwA5V-lKY',
-    appId: '1:502557711691:web:fcd42a83d7654253185cce',
+    appId: '1:502557711691:web:f6f758bf00f6dd98185cce',
     messagingSenderId: '502557711691',
     projectId: 'tiki-taka-scoreboard',
     authDomain: 'tiki-taka-scoreboard.firebaseapp.com',
     storageBucket: 'tiki-taka-scoreboard.firebasestorage.app',
-    measurementId: 'G-FLVJEH1X14',
+    measurementId: 'G-DFFGL7RTMZ',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyA7zVg5DpF0b0HVbbmrErouDZMqcJyf_JI',
+    appId: '1:502557711691:ios:132073a4de046f62185cce',
+    messagingSenderId: '502557711691',
+    projectId: 'tiki-taka-scoreboard',
+    storageBucket: 'tiki-taka-scoreboard.firebasestorage.app',
+    iosBundleId: 'com.pmorales.wearos.tikitaka',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyCxLFXaQy1kgueDu41wPuM-hlUwA5V-lKY',
+    appId: '1:502557711691:web:20b45a840237e586185cce',
+    messagingSenderId: '502557711691',
+    projectId: 'tiki-taka-scoreboard',
+    authDomain: 'tiki-taka-scoreboard.firebaseapp.com',
+    storageBucket: 'tiki-taka-scoreboard.firebasestorage.app',
+    measurementId: 'G-905F3CBT25',
   );
 }

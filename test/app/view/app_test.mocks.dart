@@ -363,7 +363,6 @@ class MockFirebaseFirestore extends _i1.Mock implements _i4.FirebaseFirestore {
           )
           as _i2.FirebaseApp);
 
-  @override
   String get databaseURL =>
       (super.noSuchMethod(
             Invocation.getter(#databaseURL),
@@ -405,7 +404,6 @@ class MockFirebaseFirestore extends _i1.Mock implements _i4.FirebaseFirestore {
     returnValueForMissingStub: null,
   );
 
-  @override
   set databaseURL(String? _databaseURL) => super.noSuchMethod(
     Invocation.setter(
       #databaseURL,
@@ -488,7 +486,6 @@ class MockFirebaseFirestore extends _i1.Mock implements _i4.FirebaseFirestore {
           )
           as _i5.Future<void>);
 
-  @override
   _i5.Future<void> enablePersistence([
     _i3.PersistenceSettings? persistenceSettings,
   ]) =>
@@ -736,7 +733,6 @@ class MockFirebaseFirestore extends _i1.Mock implements _i4.FirebaseFirestore {
           )
           as _i5.Future<void>);
 
-  @override
   _i5.Future<void> setIndexConfiguration({
     required List<_i3.Index>? indexes,
     List<_i3.FieldOverrides>? fieldOverrides,

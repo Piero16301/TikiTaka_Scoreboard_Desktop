@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(tikitaka_scoreboard_desktop LANGUAGES CXX)
+project(tiki_taka_scoreboard_desktop LANGUAGES CXX)
 
-set(BINARY_NAME "tikitaka_scoreboard_desktop")
+set(BINARY_NAME "tiki_taka_scoreboard_desktop")
 
 cmake_policy(SET CMP0063 NEW)
 

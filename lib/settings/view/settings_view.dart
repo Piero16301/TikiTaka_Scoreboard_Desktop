@@ -82,7 +82,7 @@ class ConfigurationSetting extends StatelessWidget {
   });
 
   final String title;
-  final IconData icon;
+  final List<List<dynamic>> icon;
   final String route;
 
   @override
@@ -90,7 +90,7 @@ class ConfigurationSetting extends StatelessWidget {
     return AppCardButton(
       onPressed: () => Navigator.of(context).pushNamed(route),
       child: Row(
-        spacing: 10,
+        spacing: 20,
         children: [
           HugeIcon(
             icon: icon,
@@ -101,6 +101,7 @@ class ConfigurationSetting extends StatelessWidget {
             child: ScrollText(
               text: title,
               style: AppVariables().appSettingsFont,
+              textAlign: TextAlign.start,
             ),
           ),
         ],

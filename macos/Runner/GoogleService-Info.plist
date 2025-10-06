@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.myApp</string>
+	<string>com.pmorales.wearos.tikitaka</string>
 	<key>PROJECT_ID</key>
 	<string>tiki-taka-scoreboard</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:502557711691:ios:60c27cec7e1f0a73185cce</string>
+	<string>1:502557711691:ios:132073a4de046f62185cce</string>
 </dict>
 </plist>

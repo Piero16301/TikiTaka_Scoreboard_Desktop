@@ -262,7 +262,7 @@ class TeamCardTeams extends StatelessWidget {
             enabledTeams: enabledTeams,
           ),
           child: Row(
-            spacing: 10,
+            spacing: 20,
             children: [
               SizedBox(
                 width: 40,
@@ -287,6 +287,7 @@ class TeamCardTeams extends StatelessWidget {
                 child: ScrollText(
                   text: team.name.toUpperCase(),
                   style: AppVariables().appSettingsFont,
+                  textAlign: TextAlign.start,
                 ),
               ),
             ],

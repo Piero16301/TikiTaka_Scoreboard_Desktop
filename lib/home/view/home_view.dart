@@ -254,7 +254,7 @@ class _LastUpdateHomeState extends State<LastUpdateHome>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _nowSubscription.cancel();
+    unawaited(_nowSubscription.cancel());
     super.dispose();
   }
 
@@ -497,6 +497,7 @@ class SettingsButtonHome extends StatelessWidget {
                 as bool? ??
             true;
         if (reload) {
+          // ignore: use_build_context_synchronously // It's safe here
           context.read<HomeCubit>().reload();
         }
       },

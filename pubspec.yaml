@@ -4,29 +4,30 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: ^3.8.0
+  sdk: ^3.9.0
+  flutter: ^3.35.0
 
 dependencies:
-  bloc: ^9.0.0
-  cloud_firestore: ^5.6.9
-  device_info_plus: ^11.5.0
+  bloc: ^9.0.1
+  cloud_firestore: ^6.0.2
+  device_info_plus: ^12.1.0
   equatable: ^2.0.7
-  firebase_core: ^3.14.0
-  fluent_ui: ^4.12.0
+  firebase_core: ^4.1.1
+  fluent_ui: ^4.13.0
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
-  flutter_local_notifications: ^19.3.0
+  flutter_local_notifications: ^19.4.2
   flutter_localizations:
     sdk: flutter
-  flutter_svg: ^2.2.0
-  google_fonts: ^6.2.1
-  hugeicons: ^0.0.11
+  flutter_svg: ^2.2.1
+  google_fonts: ^6.3.2
+  hugeicons: ^1.1.0
   intl: ^0.20.2
-  package_info_plus: ^8.3.0
+  package_info_plus: ^9.0.0
   shared_preferences: ^2.5.3
   shimmer_animation: ^2.2.2
-  text_scroll: ^0.2.0
+  text_scroll: ^0.2.1
   user_api:
     path: packages/user_api
   user_api_remote:
@@ -36,32 +37,35 @@ dependencies:
 
 dev_dependencies:
   bloc_test: ^10.0.0
-  build_runner: ^2.5.4
-  firebase_core_platform_interface: ^5.4.0
+  build_runner: ^2.7.1
+  firebase_core_platform_interface: ^6.0.1
   flutter_launcher_icons: ^0.14.4
   flutter_test:
     sdk: flutter
-  mockito: ^5.4.6
+  mockito: ^5.5.0
   mocktail: ^1.0.4
   plugin_platform_interface: ^2.1.8
   test_coverage_badge: ^0.3.2
-  very_good_analysis: ^9.0.0
+  very_good_analysis: ^10.0.0
 
 flutter_launcher_icons:
-  image_path: "assets/logo.png"
   android: false
   ios: false
   web:
-    generate: false
+    generate: true
+    image_path: "assets/logo-web.png"
+    background_color: "transparent"
   windows:
    generate: true
+   image_path: "assets/logo-windows.png"
    icon_size: 256
   macos:
     generate: true
+    image_path: "assets/logo-macos.png"
 
 flutter:
   generate: true
   uses-material-design: true
 
   assets:
-    - assets/logo.png
+    - assets/

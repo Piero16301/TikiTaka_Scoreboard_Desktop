@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -45,27 +46,31 @@ class LocalSettingsService {
   }
 
   void saveLanguageOnFirestore({String language = 'en_US'}) {
-    firestore
-        .collection(AppVariables.devicesCollection)
-        .doc(NotificationService.instance.token)
-        .set(
-          {
-            'language': language,
-          },
-          SetOptions(merge: true),
-        );
+    unawaited(
+      firestore
+          .collection(AppVariables.devicesCollection)
+          .doc(NotificationService.instance.token)
+          .set(
+            {
+              'language': language,
+            },
+            SetOptions(merge: true),
+          ),
+    );
   }
 
   void saveDarkModeOnFirestore({bool darkMode = true}) {
-    firestore
-        .collection(AppVariables.devicesCollection)
-        .doc(NotificationService.instance.token)
-        .set(
-          {
-            'darkMode': darkMode,
-          },
-          SetOptions(merge: true),
-        );
+    unawaited(
+      firestore
+          .collection(AppVariables.devicesCollection)
+          .doc(NotificationService.instance.token)
+          .set(
+            {
+              'darkMode': darkMode,
+            },
+            SetOptions(merge: true),
+          ),
+    );
   }
 
   MacOsDeviceInfo? get macOsInfo {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -68,21 +70,23 @@ class CardThemes extends StatelessWidget {
 
   final bool isDark;
   final String text;
-  final IconData icon;
+  final List<List<dynamic>> icon;
 
   @override
   Widget build(BuildContext context) {
     return AppCardButton(
       onPressed: () => context.read<AppCubit>().changeTheme(darkMode: isDark),
       child: Row(
-        spacing: 10,
+        spacing: 20,
         children: [
           BlocBuilder<AppCubit, AppState>(
             builder: (context, state) => RadioButton(
               checked: state.darkMode == isDark,
               onChanged: (checked) {
                 if (checked) {
-                  context.read<AppCubit>().changeTheme(darkMode: isDark);
+                  unawaited(
+                    context.read<AppCubit>().changeTheme(darkMode: isDark),
+                  );
                 }
               },
             ),
@@ -95,6 +99,7 @@ class CardThemes extends StatelessWidget {
             child: ScrollText(
               text: text.toUpperCase(),
               style: AppVariables().appSettingsFont,
+              textAlign: TextAlign.start,
             ),
           ),
         ],

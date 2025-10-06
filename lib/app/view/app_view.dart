@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
@@ -13,7 +15,7 @@ class AppView extends StatefulWidget {
 class _AppViewState extends State<AppView> {
   @override
   void initState() {
-    context.read<AppCubit>().initialLoad();
+    unawaited(context.read<AppCubit>().initialLoad());
     super.initState();
   }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/widgets/widgets.dart';
 
@@ -25,7 +27,8 @@ class _RippleBackgroundState extends State<RippleBackground>
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 5),
-    )..repeat();
+    );
+    unawaited(_animationController.repeat());
   }
 
   @override

@@ -452,6 +452,7 @@ class CompetitionsCardTeam extends StatelessWidget {
 
     return AppCardData(
       child: Column(
+        spacing: 10,
         children: [
           Text(
             l10n.competitionsTeam.toUpperCase(),
@@ -539,7 +540,7 @@ class ShimmerAdditionalInfoTeam extends StatelessWidget {
   }
 
   Widget buildInfoRow({
-    required IconData icon,
+    required List<List<dynamic>> icon,
     required String title,
     required BuildContext context,
   }) {
@@ -622,7 +623,7 @@ class AdditionalInfoTeam extends StatelessWidget {
   }
 
   Widget buildInfoRow({
-    required IconData icon,
+    required List<List<dynamic>> icon,
     required String title,
     required String value,
     required BuildContext context,

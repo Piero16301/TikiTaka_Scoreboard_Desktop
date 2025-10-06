@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
@@ -79,14 +81,14 @@ class CardLanguages extends StatelessWidget {
     return AppCardButton(
       onPressed: () => context.read<AppCubit>().changeLanguage(value),
       child: Row(
-        spacing: 10,
+        spacing: 20,
         children: [
           BlocBuilder<AppCubit, AppState>(
             builder: (context, state) => RadioButton(
               checked: state.language == value,
               onChanged: (checked) {
                 if (checked) {
-                  context.read<AppCubit>().changeLanguage(value);
+                  unawaited(context.read<AppCubit>().changeLanguage(value));
                 }
               },
             ),
@@ -95,6 +97,7 @@ class CardLanguages extends StatelessWidget {
             child: ScrollText(
               text: language.toUpperCase(),
               style: AppVariables().appSettingsFont,
+              textAlign: TextAlign.start,
             ),
           ),
         ],

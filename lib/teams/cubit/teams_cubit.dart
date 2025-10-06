@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
@@ -52,13 +54,17 @@ class TeamsCubit extends Cubit<TeamsState> {
 
     // Update the enabled teams
     if (enabledTeams.contains(team.id.toString())) {
-      state.devicesCollection?.doc(token).update({
-        'enabledTeams': FieldValue.arrayRemove([team.id.toString()]),
-      });
+      unawaited(
+        state.devicesCollection?.doc(token).update({
+          'enabledTeams': FieldValue.arrayRemove([team.id.toString()]),
+        }),
+      );
     } else {
-      state.devicesCollection?.doc(token).update({
-        'enabledTeams': FieldValue.arrayUnion([team.id.toString()]),
-      });
+      unawaited(
+        state.devicesCollection?.doc(token).update({
+          'enabledTeams': FieldValue.arrayUnion([team.id.toString()]),
+        }),
+      );
     }
   }
 }

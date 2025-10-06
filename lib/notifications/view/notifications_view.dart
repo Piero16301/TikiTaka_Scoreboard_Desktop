@@ -219,7 +219,7 @@ class LeagueCardNotifications extends StatelessWidget {
         arguments: league.id,
       ),
       child: Row(
-        spacing: 10,
+        spacing: 20,
         children: [
           CrestImageBackground(
             crest: league.emblem,
@@ -229,6 +229,7 @@ class LeagueCardNotifications extends StatelessWidget {
             child: ScrollText(
               text: league.name.toUpperCase(),
               style: AppVariables().appSettingsFont,
+              textAlign: TextAlign.start,
             ),
           ),
         ],

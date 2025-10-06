@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -229,7 +231,7 @@ class LeagueCardCompetitions extends StatelessWidget {
             enabled: !enabled,
           ),
           child: Row(
-            spacing: 10,
+            spacing: 20,
             children: [
               SizedBox(
                 width: 40,
@@ -238,9 +240,11 @@ class LeagueCardCompetitions extends StatelessWidget {
                   child: ToggleSwitch(
                     checked: enabled,
                     onChanged: (value) {
-                      context.read<LeaguesCubit>().toggleLeague(
-                        league: league.code,
-                        enabled: value,
+                      unawaited(
+                        context.read<LeaguesCubit>().toggleLeague(
+                          league: league.code,
+                          enabled: value,
+                        ),
                       );
                     },
                   ),
@@ -254,6 +258,7 @@ class LeagueCardCompetitions extends StatelessWidget {
                 child: ScrollText(
                   text: league.name.toUpperCase(),
                   style: AppVariables().appSettingsFont,
+                  textAlign: TextAlign.start,
                 ),
               ),
             ],
