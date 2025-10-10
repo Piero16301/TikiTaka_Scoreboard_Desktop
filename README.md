@@ -164,6 +164,11 @@ To use the latest translations changes, you will need to generate them:
 flutter gen-l10n --arb-dir="lib/l10n/arb"
 ```
 
+### Create store descriptions
+```
+En base al contenido de la aplicación de Futter, crear una descripción completa (máximo 10000 caracteres) y notas de la versión (máximo 1500 caracteres) para publicar la aplicación en Windows Store
+```
+
 Alternatively, run `flutter run` and code generation will take place automatically.
 
 [coverage_badge]: coverage_badge.svg

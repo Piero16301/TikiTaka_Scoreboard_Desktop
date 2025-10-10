@@ -45,6 +45,7 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.5.0
   mocktail: ^1.0.4
+  msix: ^3.16.12
   plugin_platform_interface: ^2.1.8
   test_coverage_badge: ^0.3.2
   very_good_analysis: ^10.0.0
@@ -63,6 +64,17 @@ flutter_launcher_icons:
   macos:
     generate: true
     image_path: "assets/logo-macos.png"
+
+msix_config:
+  display_name: Tiki-Taka
+  publisher_display_name: Piero Angelo Morales Alcalde
+  identity_name: 29622PieroAngeloMoralesAl.ScoreboardDesktop
+  publisher: CN=91BE0923-E8F6-4F62-AE9E-2A123C9AC1AF
+  msix_version: 2.0.0.0
+  languages: es-es, en-us, it-it
+  logo_path: assets/logo-windows.png
+  capabilities: internetClient
+  store: true
 
 flutter:
   generate: true
