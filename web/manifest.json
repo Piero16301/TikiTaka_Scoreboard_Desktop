@@ -1,6 +1,6 @@
 {
-    "name": "Tiki Taka Scoreboard Desktop",
-    "short_name": "Tiki Taka Scoreboard Desktop",
+    "name": "Tiki-Taka",
+    "short_name": "Tiki-Taka",
     "start_url": ".",
     "display": "standalone",
     "background_color": "transparent",

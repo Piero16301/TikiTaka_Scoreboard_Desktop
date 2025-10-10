@@ -1,4 +1,4 @@
-# Tiki Taka Scoreboard Desktop
+# Tiki-Taka
 
 ![coverage][coverage_badge]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
@@ -31,7 +31,7 @@ $ flutter run --flavor staging --target lib/main_staging.dart
 $ flutter run --flavor production --target lib/main_production.dart
 ```
 
-_\*Tiki Taka Scoreboard Desktop works on Windows, macOS, and Linux._
+_\*Tiki-Taka works on Windows, macOS, and Linux._
 
 ---
 

@@ -52,7 +52,7 @@ class HomeCubit extends Cubit<HomeState> {
   Stream<QuerySnapshot<Map<String, dynamic>>>? getMatches() {
     final enabledLeagues = userRepository.getEnabledLeagues();
     final nowDate = DateTime.now();
-    // final nowDate = DateTime(2025, 10, 5);
+    // final nowDate = DateTime(2025, 9, 27);
 
     final snapshots = state.matchesCollection
         ?.where(
