@@ -66,6 +66,7 @@ class NotificationService {
           .doc(token)
           .set(
             {
+              'platform': Platform.operatingSystem.toUpperCase(),
               'token': token,
               'lastOpenAt': FieldValue.serverTimestamp(),
               'androidInfo': null,
