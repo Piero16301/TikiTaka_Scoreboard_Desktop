@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
+import 'package:hugeicons/hugeicons.dart';
+import 'package:intl/intl.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
 import 'package:tiki_taka_scoreboard_desktop/home/home.dart';
 import 'package:tiki_taka_scoreboard_desktop/l10n/l10n.dart';
@@ -212,7 +215,14 @@ class HomeView extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       ...matches.map(
-                        (match) => MatchCardHome(match: match),
+                        (match) => BlocBuilder<HomeCubit, HomeState>(
+                          builder: (context, state) {
+                            if (!state.pipMatches.contains(match.id)) {
+                              return MatchCardHome(match: match);
+                            }
+                            return const SizedBox.shrink();
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -355,47 +365,163 @@ class MatchCardHome extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final state = getMatchState(match.status, match.utcDate!, l10n);
 
-    return AppCardButton(
-      onPressed: () => Navigator.of(context).pushNamed(
-        MatchPage.routeName,
-        arguments: match.id,
-      ),
-      child: Row(
+    return AppCardData(
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 10,
-              children: [
-                CrestImage(crest: match.homeTeam.crest),
-                ScrollText(
-                  text: match.homeTeam.shortName.toUpperCase(),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 10,
+                  children: [
+                    CrestImage(crest: match.homeTeam.crest),
+                    ScrollText(
+                      text: match.homeTeam.shortName.toUpperCase(),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
-              ],
+              ),
+              Expanded(
+                child: MatchStatusHome(
+                  status: match.status,
+                  state: state,
+                  match: match,
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 10,
+                  children: [
+                    CrestImage(crest: match.awayTeam.crest),
+                    ScrollText(
+                      text: match.awayTeam.shortName.toUpperCase(),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Positioned(
+            right: 0,
+            child: IconButton(
+              icon: const HugeIcon(
+                icon: HugeIcons.strokeRoundedInformationCircle,
+                size: 20,
+              ),
+              onPressed: () => Navigator.of(context).pushNamed(
+                MatchPage.routeName,
+                arguments: match.id,
+              ),
             ),
           ),
-          Expanded(
-            child: MatchStatusHome(
-              status: match.status,
-              state: state,
-              match: match,
-            ),
-          ),
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 10,
-              children: [
-                CrestImage(crest: match.awayTeam.crest),
-                ScrollText(
-                  text: match.awayTeam.shortName.toUpperCase(),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
+          Positioned(
+            left: 0,
+            child: IconButton(
+              icon: const HugeIcon(
+                icon: HugeIcons.strokeRoundedPictureInPictureOn,
+                size: 20,
+              ),
+              onPressed: () => startPictureInPicture(context, match),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void startPictureInPicture(BuildContext context, Match match) {
+    final darkMode = context.read<AppCubit>().state.darkMode;
+    final homeCubit = context.read<HomeCubit>()..addPiPMatch(match.id);
+    PictureInPicture.startPiP(
+      pipWidget: PiPWidget(
+        onPiPClose: () {},
+        child: PiPMatchCardHome(
+          match: match,
+          darkMode: darkMode,
+          homeCubit: homeCubit,
+        ),
+      ),
+    );
+  }
+}
+
+class PiPMatchCardHome extends StatelessWidget {
+  const PiPMatchCardHome({
+    required this.match,
+    required this.darkMode,
+    required this.homeCubit,
+    super.key,
+  });
+
+  final Match match;
+  final bool darkMode;
+  final HomeCubit homeCubit;
+
+  @override
+  Widget build(BuildContext context) {
+    return FluentApp(
+      debugShowCheckedModeBanner: false,
+      theme: AppThemes.lightTheme,
+      darkTheme: AppThemes.darkTheme,
+      themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
+      home: AppCardData(
+        padding: EdgeInsetsGeometry.zero,
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 10,
+                children: [
+                  CrestImage(crest: match.homeTeam.crest, dimension: 40),
+                  ScrollText(
+                    text: match.homeTeam.shortName.toUpperCase(),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  PiPMatchStatusHome(
+                    status: match.status,
+                    match: match,
+                  ),
+                  IconButton(
+                    icon: const HugeIcon(
+                      icon: HugeIcons.strokeRoundedPictureInPictureExit,
+                      size: 20,
+                    ),
+                    onPressed: () {
+                      PictureInPicture.stopPiP();
+                      homeCubit.removePiPMatch(match.id);
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 10,
+                children: [
+                  CrestImage(crest: match.awayTeam.crest, dimension: 40),
+                  ScrollText(
+                    text: match.awayTeam.shortName.toUpperCase(),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -479,6 +605,86 @@ class MatchStatusHome extends StatelessWidget {
             ],
           ),
           ScrollText(text: state),
+        ],
+      );
+    }
+  }
+}
+
+class PiPMatchStatusHome extends StatelessWidget {
+  const PiPMatchStatusHome({
+    required this.status,
+    required this.match,
+    super.key,
+  });
+
+  final String status;
+  final Match match;
+
+  @override
+  Widget build(BuildContext context) {
+    if (status == 'SCHEDULED' || status == 'TIMED') {
+      return Column(
+        spacing: 10,
+        children: [
+          CrestImageBackground(
+            crest: match.competition.emblem,
+            dimension: 30,
+          ),
+          Text(
+            DateFormat('HH:mm').format(match.utcDate ?? DateTime.now()),
+            style: AppVariables().appScoreboardFont,
+          ),
+        ],
+      );
+    } else if (status == 'IN_PLAY' || status == 'PAUSED') {
+      return Column(
+        spacing: 10,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                match.score.fullTime.home.toString(),
+                style: AppVariables().appScoreboardFont,
+              ),
+              Text(
+                '-',
+                style: AppVariables().appScoreboardFont,
+              ),
+              Text(
+                match.score.fullTime.away.toString(),
+                style: AppVariables().appScoreboardFont,
+              ),
+            ],
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: ProgressBar(),
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        spacing: 10,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                match.score.fullTime.home.toString(),
+                style: AppVariables().appScoreboardFont,
+              ),
+              Text(
+                '-',
+                style: AppVariables().appScoreboardFont,
+              ),
+              Text(
+                match.score.fullTime.away.toString(),
+                style: AppVariables().appScoreboardFont,
+              ),
+            ],
+          ),
         ],
       );
     }

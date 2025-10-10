@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.14...3.30)
 project(tiki_taka_scoreboard_desktop LANGUAGES CXX)
 
 set(BINARY_NAME "tiki_taka_scoreboard_desktop")

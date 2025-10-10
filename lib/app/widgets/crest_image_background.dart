@@ -7,12 +7,14 @@ class CrestImageBackground extends StatelessWidget {
     required this.crest,
     this.dimension = 60,
     this.fit = BoxFit.fill,
+    this.visible = true,
     super.key,
   });
 
   final String crest;
   final double dimension;
   final BoxFit fit;
+  final bool visible;
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +22,21 @@ class CrestImageBackground extends StatelessWidget {
       (cubit) => cubit.state.darkMode,
     );
 
-    return Container(
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: darkMode
-            ? Colors.white.withValues(alpha: 0.8)
-            : Colors.black.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: CrestImage(
-        crest: crest,
-        dimension: dimension,
-        fit: fit,
+    return Visibility(
+      visible: visible,
+      child: Container(
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          color: darkMode
+              ? Colors.white.withValues(alpha: 0.8)
+              : Colors.black.withValues(alpha: 0.2),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: CrestImage(
+          crest: crest,
+          dimension: dimension,
+          fit: fit,
+        ),
       ),
     );
   }

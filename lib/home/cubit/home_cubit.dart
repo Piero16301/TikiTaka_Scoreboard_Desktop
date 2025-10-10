@@ -31,6 +31,22 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(reload: value));
   }
 
+  void addPiPMatch(int matchId) {
+    final currentPiPMatches = List<int>.from(state.pipMatches);
+    if (!currentPiPMatches.contains(matchId)) {
+      currentPiPMatches.add(matchId);
+      emit(state.copyWith(pipMatches: currentPiPMatches));
+    }
+  }
+
+  void removePiPMatch(int matchId) {
+    final currentPiPMatches = List<int>.from(state.pipMatches);
+    if (currentPiPMatches.contains(matchId)) {
+      currentPiPMatches.remove(matchId);
+      emit(state.copyWith(pipMatches: currentPiPMatches));
+    }
+  }
+
   Stream<QuerySnapshot<Map<String, dynamic>>>? getMatches() {
     final enabledLeagues = userRepository.getEnabledLeagues();
     // final nowDate = DateTime.now();

@@ -1,5 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_in_app_pip/flutter_in_app_pip.dart';
 import 'package:tiki_taka_scoreboard_desktop/app/app.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -21,7 +22,14 @@ class AppPage extends StatelessWidget {
         providers: [
           BlocProvider<AppCubit>(create: (_) => AppCubit(_userRepository)),
         ],
-        child: const AppView(),
+        child: PiPMaterialApp(
+          debugShowCheckedModeBanner: false,
+          pipParams: const PiPParams(
+            pipWindowWidth: 350,
+            pipWindowHeight: 125,
+          ),
+          home: const AppView(),
+        ),
       ),
     );
   }

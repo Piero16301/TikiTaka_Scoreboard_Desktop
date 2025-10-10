@@ -5,21 +5,25 @@ class HomeState extends Equatable {
     this.matchesCollection,
     this.configsCollection,
     this.reload = false,
+    this.pipMatches = const <int>[],
   });
 
   final CollectionReference<Map<String, dynamic>>? matchesCollection;
   final CollectionReference<Map<String, dynamic>>? configsCollection;
   final bool reload;
+  final List<int> pipMatches;
 
   HomeState copyWith({
     CollectionReference<Map<String, dynamic>>? matchesCollection,
     CollectionReference<Map<String, dynamic>>? configsCollection,
     bool? reload,
+    List<int>? pipMatches,
   }) {
     return HomeState(
       matchesCollection: matchesCollection ?? this.matchesCollection,
       configsCollection: configsCollection ?? this.configsCollection,
       reload: reload ?? this.reload,
+      pipMatches: pipMatches ?? this.pipMatches,
     );
   }
 
@@ -28,5 +32,6 @@ class HomeState extends Equatable {
     matchesCollection,
     configsCollection,
     reload,
+    pipMatches,
   ];
 }
