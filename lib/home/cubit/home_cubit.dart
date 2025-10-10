@@ -34,7 +34,9 @@ class HomeCubit extends Cubit<HomeState> {
   void addPiPMatch(int matchId) {
     final currentPiPMatches = List<int>.from(state.pipMatches);
     if (!currentPiPMatches.contains(matchId)) {
-      currentPiPMatches.add(matchId);
+      currentPiPMatches
+        ..clear()
+        ..add(matchId);
       emit(state.copyWith(pipMatches: currentPiPMatches));
     }
   }

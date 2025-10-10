@@ -25,8 +25,8 @@ class AppPage extends StatelessWidget {
         child: PiPMaterialApp(
           debugShowCheckedModeBanner: false,
           pipParams: const PiPParams(
-            pipWindowWidth: 350,
-            pipWindowHeight: 125,
+            pipWindowWidth: 225,
+            pipWindowHeight: 100,
           ),
           home: const AppView(),
         ),

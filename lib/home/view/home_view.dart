@@ -437,8 +437,10 @@ class MatchCardHome extends StatelessWidget {
   void startPictureInPicture(BuildContext context, Match match) {
     final darkMode = context.read<AppCubit>().state.darkMode;
     final homeCubit = context.read<HomeCubit>()..addPiPMatch(match.id);
+    debugPrint('Starting PiP for match ID: ${match.id}');
     PictureInPicture.startPiP(
       pipWidget: PiPWidget(
+        pipBorderRadius: 10,
         onPiPClose: () {},
         child: PiPMatchCardHome(
           match: match,
@@ -471,56 +473,57 @@ class PiPMatchCardHome extends StatelessWidget {
       themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
       home: AppCardData(
         padding: EdgeInsetsGeometry.zero,
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
+        cardPadding: EdgeInsetsGeometry.zero,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            spacing: 5,
+            children: [
+              Column(
                 mainAxisSize: MainAxisSize.min,
                 spacing: 10,
                 children: [
                   CrestImage(crest: match.homeTeam.crest, dimension: 40),
-                  ScrollText(
-                    text: match.homeTeam.shortName.toUpperCase(),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  PiPMatchStatusHome(
-                    status: match.status,
-                    match: match,
-                  ),
-                  IconButton(
-                    icon: const HugeIcon(
-                      icon: HugeIcons.strokeRoundedPictureInPictureExit,
-                      size: 20,
+                  Text(
+                    match.homeTeam.tla.toUpperCase(),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
                     ),
-                    onPressed: () {
-                      PictureInPicture.stopPiP();
-                      homeCubit.removePiPMatch(match.id);
-                    },
                   ),
                 ],
               ),
-            ),
-            Expanded(
-              child: Column(
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    PiPMatchStatusHome(
+                      status: match.status,
+                      match: match,
+                      onPipClose: () {
+                        homeCubit.removePiPMatch(match.id);
+                        PictureInPicture.stopPiP();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Column(
                 mainAxisSize: MainAxisSize.min,
                 spacing: 10,
                 children: [
                   CrestImage(crest: match.awayTeam.crest, dimension: 40),
-                  ScrollText(
-                    text: match.awayTeam.shortName.toUpperCase(),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  Text(
+                    match.awayTeam.tla.toUpperCase(),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -615,31 +618,36 @@ class PiPMatchStatusHome extends StatelessWidget {
   const PiPMatchStatusHome({
     required this.status,
     required this.match,
+    this.onPipClose,
     super.key,
   });
 
   final String status;
   final Match match;
+  final void Function()? onPipClose;
 
   @override
   Widget build(BuildContext context) {
     if (status == 'SCHEDULED' || status == 'TIMED') {
       return Column(
-        spacing: 10,
+        spacing: 5,
         children: [
-          CrestImageBackground(
-            crest: match.competition.emblem,
-            dimension: 30,
+          IconButton(
+            icon: const HugeIcon(
+              icon: HugeIcons.strokeRoundedPictureInPictureExit,
+              size: 20,
+            ),
+            onPressed: onPipClose,
           ),
           Text(
             DateFormat('HH:mm').format(match.utcDate ?? DateTime.now()),
-            style: AppVariables().appScoreboardFont,
+            style: AppVariables().appScoreboardFont.copyWith(fontSize: 25),
           ),
         ],
       );
     } else if (status == 'IN_PLAY' || status == 'PAUSED') {
       return Column(
-        spacing: 10,
+        spacing: 5,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -648,9 +656,12 @@ class PiPMatchStatusHome extends StatelessWidget {
                 match.score.fullTime.home.toString(),
                 style: AppVariables().appScoreboardFont,
               ),
-              Text(
-                '-',
-                style: AppVariables().appScoreboardFont,
+              IconButton(
+                icon: const HugeIcon(
+                  icon: HugeIcons.strokeRoundedPictureInPictureExit,
+                  size: 20,
+                ),
+                onPressed: onPipClose,
               ),
               Text(
                 match.score.fullTime.away.toString(),
@@ -675,9 +686,12 @@ class PiPMatchStatusHome extends StatelessWidget {
                 match.score.fullTime.home.toString(),
                 style: AppVariables().appScoreboardFont,
               ),
-              Text(
-                '-',
-                style: AppVariables().appScoreboardFont,
+              IconButton(
+                icon: const HugeIcon(
+                  icon: HugeIcons.strokeRoundedPictureInPictureExit,
+                  size: 20,
+                ),
+                onPressed: onPipClose,
               ),
               Text(
                 match.score.fullTime.away.toString(),
