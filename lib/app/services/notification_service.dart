@@ -47,6 +47,7 @@ class NotificationService {
     }
 
     if (token != null) {
+      debugPrint('App started with token: $token');
       _token = token;
     } else {
       return;
