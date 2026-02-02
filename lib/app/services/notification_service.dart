@@ -54,8 +54,8 @@ class NotificationService {
     }
 
     // Get device locale
-    final localLanguage = await LocalSettingsService.instance
-        .getLocalLanguage();
+    final localLanguage =
+        await LocalSettingsService.instance.getLocalLanguage();
 
     // Get device dark mode
     final darkMode = await LocalSettingsService.instance.getDarkMode();
@@ -66,19 +66,19 @@ class NotificationService {
           .collection(AppVariables.devicesCollection)
           .doc(token)
           .set(
-            {
-              'platform': Platform.operatingSystem.toUpperCase(),
-              'token': token,
-              'lastOpenAt': FieldValue.serverTimestamp(),
-              'androidInfo': null,
-              'macOsInfo': macOsInfo?.toJson(),
-              'windowsInfo': windowsInfo?.toJson(),
-              'language': localLanguage,
-              'darkMode': darkMode,
-              'enabledTeams': FieldValue.arrayUnion(<String>[]),
-            },
-            SetOptions(merge: true),
-          ),
+        {
+          'platform': Platform.operatingSystem.toUpperCase(),
+          'token': token,
+          'lastOpenAt': FieldValue.serverTimestamp(),
+          'androidInfo': null,
+          'macOsInfo': macOsInfo?.toJson(),
+          'windowsInfo': windowsInfo?.toJson(),
+          'language': localLanguage,
+          'darkMode': darkMode,
+          'enabledTeams': FieldValue.arrayUnion(<String>[]),
+        },
+        SetOptions(merge: true),
+      ),
     );
   }
 
@@ -100,7 +100,7 @@ class NotificationService {
     );
 
     await _localNotifications.initialize(
-      initializationSettings,
+      settings: initializationSettings,
       onDidReceiveNotificationResponse: (details) =>
           _handleBackgroundMessage(details.payload ?? ''),
     );
@@ -110,10 +110,10 @@ class NotificationService {
 
   Future<void> showNotification(AppMessage message) async {
     await _localNotifications.show(
-      message.hashCode,
-      message.notification?.title ?? '',
-      message.notification?.body ?? '',
-      const NotificationDetails(
+      id: message.hashCode,
+      title: message.notification?.title ?? '',
+      body: message.notification?.body ?? '',
+      notificationDetails: const NotificationDetails(
         macOS: DarwinNotificationDetails(),
         windows: WindowsNotificationDetails(),
       ),
