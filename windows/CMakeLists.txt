@@ -3,6 +3,7 @@ project(tiki_taka_scoreboard_desktop LANGUAGES CXX)
 
 set(BINARY_NAME "tiki_taka_scoreboard_desktop")
 
+set(CMAKE_POLICY_VERSION_MINIMUM "3.5")
 cmake_policy(SET CMP0063 NEW)
 
 set(CMAKE_INSTALL_RPATH "$ORIGIN/lib")
